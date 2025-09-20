@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 import { motion } from "framer-motion"
 import { ArrowLeft, MapPin, Calendar, User, Building, Clock, Heart, MessageCircle, Repeat2, Eye, Share, Flag } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -112,6 +112,8 @@ const mockComments = [
 ]
 
 export default function ProblemDetailPage({ params }) {
+  // Use React.use() to unwrap the async params
+  const resolvedParams = use(params)
   const [problem, setProblem] = useState(null)
   const [comments, setComments] = useState(mockComments)
   const [isLoading, setIsLoading] = useState(true)
@@ -121,7 +123,7 @@ export default function ProblemDetailPage({ params }) {
     const loadProblem = async () => {
       try {
         // Handle both direct ID and extracted ID from tracking number
-        const id = await params.id
+        const id = resolvedParams.id
         const problemId = id.includes('2024') ? '1' : id
         const problemData = mockProblemDetails[problemId] || mockProblemDetails['1']
         setProblem(problemData)
@@ -134,7 +136,7 @@ export default function ProblemDetailPage({ params }) {
     }
     
     loadProblem()
-  }, [params])
+  }, [resolvedParams])
 
   if (isLoading) {
     return (

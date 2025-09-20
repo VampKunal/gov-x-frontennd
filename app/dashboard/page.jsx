@@ -79,7 +79,7 @@ export default function DashboardPage() {
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                  <Button size="lg" className="w-full md:w-auto shadow-lg bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600" onClick={() => window.location.href = '/feed'}>
+                  <Button size="lg" className="w-full md:w-auto shadow-lg bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600" onClick={() => window.location.href = '/report'}>
                     <Plus className="h-4 w-4 mr-2" />
                     📤 Report Issue
                   </Button>
@@ -281,7 +281,7 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {[
-                    { icon: MessageSquare, label: "Report New Issue", color: "primary", href: "/feed?modal=new" },
+                    { icon: MessageSquare, label: "Report New Issue", color: "primary", href: "/report" },
                     { icon: Search, label: "Browse Issues", color: "muted", href: "/feed" },
                     { icon: MapPin, label: "My Issues", color: "muted", href: "/track" },
                     { icon: Bell, label: "Notifications", color: "muted", href: "/notifications" }

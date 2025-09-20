@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { HoverHero } from "@/components/hover/hero"
 import { HoverFooter } from "@/components/hover/footer"
 import { MobileShowcase } from "@/components/hover/mobile-showcase"
@@ -232,13 +233,17 @@ export default function HomePage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <ShimmerButton className="text-lg px-8 py-4 h-14 bg-blue-600">
-                📱 Start Scanning Now
-              </ShimmerButton>
+              <Link href="/auth/choice">
+                <ShimmerButton className="text-lg px-8 py-4 h-14 bg-blue-600">
+                  📱 Start Scanning Now
+                </ShimmerButton>
+              </Link>
               {/* Removed Watch Demo button for hackathon neutrality */}
-              <GlowButton className="text-lg px-8 py-4 h-14">
-                🏘️ Join Community
-              </GlowButton>
+              <Link href="/auth/choice">
+                <GlowButton className="text-lg px-8 py-4 h-14">
+                  🏘️ Join Community
+                </GlowButton>
+              </Link>
             </div>
           </motion.div>
         </div>

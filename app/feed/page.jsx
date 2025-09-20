@@ -131,12 +131,19 @@ const trendingTopics = [
 
 
 export default function FeedPage() {
-  const [problems, setProblems] = useState(mockProblems)
+  const [problems, setProblems] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("All")
   const [isNewPostOpen, setIsNewPostOpen] = useState(false)
   const searchParams = useSearchParams()
   const { user } = useAuth()
+
+  // Load posts from localStorage and merge with mock data
+  useEffect(() => {
+    const feedPosts = JSON.parse(localStorage.getItem('feedPosts') || '[]')
+    // Merge localStorage posts with mock data, with localStorage posts first
+    setProblems([...feedPosts, ...mockProblems])
+  }, [])
 
   // Auto-open modal if coming from dashboard
   useEffect(() => {
@@ -175,6 +182,11 @@ export default function FeedPage() {
     
     // Add new post to beginning of problems array
     setProblems(prevProblems => [newPost, ...prevProblems])
+    
+    // Also save to localStorage
+    const existingFeedPosts = JSON.parse(localStorage.getItem('feedPosts') || '[]')
+    existingFeedPosts.unshift(newPost)
+    localStorage.setItem('feedPosts', JSON.stringify(existingFeedPosts))
     
     // Close modal
     setIsNewPostOpen(false)

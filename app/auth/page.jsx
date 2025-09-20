@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Mail, Lock, Users, Info, Sparkles, Eye, EyeOff, Shield, CheckCircle } from "lucide-react"
+import { ArrowLeft, Mail, Lock, Users, Info, Sparkles, Eye, EyeOff, Shield, CheckCircle, Building2 } from "lucide-react"
 import { useAuth } from "@/hooks/use-auth"
 
 export default function AuthPage() {
@@ -28,7 +28,7 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
-        await signInWithEmail(email, password)
+        await signInWithEmail(email, password, 'user')
       } else {
         if (password !== confirmPassword) {
           setError("Passwords don't match")
@@ -46,7 +46,7 @@ export default function AuthPage() {
     setError("")
 
     try {
-      await signInWithGoogle()
+      await signInWithGoogle('user')
       window.location.href = "/dashboard"
     } catch (error) {
       setError("Failed to sign in with Google")
@@ -445,6 +445,26 @@ export default function AuthPage() {
                 </ul>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Department Login Link */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-center"
+          >
+            <p className="text-sm text-muted-foreground mb-2">
+              Are you a government department employee?
+            </p>
+            <Link 
+              href="/department/auth" 
+              className="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors duration-300 relative group text-sm font-medium"
+            >
+              <Building2 className="h-4 w-4" />
+              <span>Department Login</span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+            </Link>
           </motion.div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Clock, CheckCircle, AlertCircle, XCircle, MapPin, Calendar, Filter, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -175,10 +175,35 @@ function ProblemSummaryCard({ problem, onClick }) {
 }
 
 export default function TrackPage() {
-  const [problems, setProblems] = useState(mockUserProblems)
+  const [problems, setProblems] = useState([])
   const [selectedStatus, setSelectedStatus] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedProblem, setSelectedProblem] = useState(null)
+
+  useEffect(() => {
+    // Load user reports from localStorage
+    const reports = JSON.parse(localStorage.getItem('userReports') || '[]')
+    // Convert reports to match the expected format
+    const convertedReports = reports.map(report => ({
+      id: report.id,
+      title: `${report.category?.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} Issue`,
+      description: report.description,
+      category: report.category?.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      department: report.department,
+      location: report.location,
+      image: report.image,
+      status: report.status === 'pending' ? 'Pending' : report.status === 'in_progress' ? 'In Progress' : 'Resolved',
+      priority: report.priority?.replace(/\b\w/g, l => l.toUpperCase()),
+      submittedDate: new Date(report.reportedAt).toLocaleDateString(),
+      lastUpdate: new Date(report.reportedAt).toLocaleDateString(),
+      trackingId: `REP${report.id}`,
+      estimatedCompletion: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+      progress: report.status === 'resolved' ? 100 : report.status === 'in_progress' ? 60 : 10,
+      assignedDept: report.department,
+      assignedOfficer: 'Auto-assigned'
+    }))
+    setProblems(convertedReports.reverse()) // Show newest first
+  }, [])
 
   const statusFilters = ["All", "Pending", "Under Review", "In Progress", "Resolved", "Rejected"]
   
@@ -335,7 +360,7 @@ export default function TrackPage() {
               </p>
               {!searchQuery && selectedStatus === "All" && (
                 <Button
-                  onClick={() => window.location.href = "/feed"}
+                  onClick={() => window.location.href = "/report"}
                   className="bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600"
                 >
                   📤 Report Your First Issue

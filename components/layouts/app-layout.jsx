@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import { SimpleNavbar } from "@/components/ui/simple-navbar"
 import { useAuth } from "@/hooks/use-auth"
 
-const publicPaths = ["/", "/auth", "/auth/forgot-password"]
+const publicPaths = ["/", "/auth", "/auth/choice", "/auth/forgot-password", "/department/auth"]
 
 export function AppLayout({ children }) {
   const { user, loading } = useAuth()

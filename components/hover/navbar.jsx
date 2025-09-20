@@ -68,13 +68,16 @@ export function HoverNavbar() {
   const isScrolled = useScrolled(50)
   const { user } = useAuth()
 
-  const navItems = [
-    { href: "/", label: "Home" },
+  // Only show navigation items when user is logged in
+  const navItems = user ? [
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/feed", label: "Issues Feed" },
     { href: "/track", label: "My Reports" },
     { href: "/notifications", label: "Notifications" },
-    { href: "/dashboard", label: "Dashboard" },
-  ]
+  ] : []
+  
+  // Public navigation for non-logged in users (empty when not logged in)
+  const publicNavItems = []
 
   return (
     <motion.header
@@ -121,7 +124,7 @@ export function HoverNavbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item, index) => (
+            {(user ? navItems : publicNavItems).map((item, index) => (
               <motion.div
                 key={item.label}
                 initial={{ opacity: 0, y: -10 }}
@@ -149,12 +152,12 @@ export function HoverNavbar() {
               </Link>
             ) : (
               <>
-                <Link href="/auth">
+                <Link href="/auth/choice">
                   <AnimatedButton variant="secondary" size="sm">
                     Log In
                   </AnimatedButton>
                 </Link>
-                <Link href="/auth">
+                <Link href="/auth/choice">
                   <AnimatedButton variant="primary" size="sm">
                     Sign Up
                   </AnimatedButton>
@@ -211,7 +214,7 @@ export function HoverNavbar() {
 
                 {/* Mobile Navigation */}
                 <nav className="flex flex-col space-y-2 mb-8 flex-1">
-                  {navItems.map((item, index) => (
+                  {(user ? navItems : publicNavItems).map((item, index) => (
                     <motion.div
                       key={item.label}
                       initial={{ opacity: 0, x: -20 }}
@@ -251,12 +254,12 @@ export function HoverNavbar() {
                     </Link>
                   ) : (
                     <>
-                      <Link href="/auth" onClick={() => setMobileNavOpen(false)}>
+                      <Link href="/auth/choice" onClick={() => setMobileNavOpen(false)}>
                         <AnimatedButton variant="secondary" className="w-full h-12 text-base">
                           Log In
                         </AnimatedButton>
                       </Link>
-                      <Link href="/auth" onClick={() => setMobileNavOpen(false)}>
+                      <Link href="/auth/choice" onClick={() => setMobileNavOpen(false)}>
                         <AnimatedButton variant="primary" className="w-full h-12 text-base">
                           Sign Up
                         </AnimatedButton>

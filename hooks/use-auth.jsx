@@ -13,6 +13,7 @@ export function AuthProvider({ children }) {
   const [firebaseServices, setFirebaseServices] = useState(null)
   const [idToken, setIdToken] = useState(null)
   const [tokenLoading, setTokenLoading] = useState(false)
+  const [userType, setUserType] = useState('user') // 'user' or 'department'
 
   useEffect(() => {
     const services = getFirebaseServices()
@@ -33,6 +34,10 @@ export function AuthProvider({ children }) {
             
             // Store token in localStorage for API calls
             localStorage.setItem('firebase-token', token)
+            
+            // Get user type from localStorage or default to 'user'
+            const storedUserType = localStorage.getItem('userType') || 'user'
+            setUserType(storedUserType)
           } catch (error) {
             console.error('Error getting ID token:', error)
             setIdToken(null)
@@ -40,7 +45,9 @@ export function AuthProvider({ children }) {
           }
         } else {
           setIdToken(null)
+          setUserType('user')
           localStorage.removeItem('firebase-token')
+          localStorage.removeItem('userType')
         }
       })
 
@@ -72,7 +79,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  const signInWithEmail = async (email, password) => {
+  const signInWithEmail = async (email, password, accountType = 'user') => {
     if (!firebaseServices) {
       toast.error("Authentication service not available")
       return
@@ -82,7 +89,12 @@ export function AuthProvider({ children }) {
     try {
       const { signInWithEmailAndPassword } = require("firebase/auth")
       const result = await signInWithEmailAndPassword(firebaseServices.auth, email, password)
-      toast.success("Signed in successfully!")
+      
+      // Store user type
+      localStorage.setItem('userType', accountType)
+      setUserType(accountType)
+      
+      toast.success(accountType === 'department' ? "Department signed in successfully!" : "Signed in successfully!")
       return result.user
     } catch (error) {
       console.error("Error signing in:", error)
@@ -93,7 +105,7 @@ export function AuthProvider({ children }) {
     }
   }
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (accountType = 'user') => {
     if (!firebaseServices) {
       toast.error("Authentication service not available")
       return
@@ -103,7 +115,12 @@ export function AuthProvider({ children }) {
     try {
       const { signInWithPopup } = require("firebase/auth")
       const result = await signInWithPopup(firebaseServices.auth, firebaseServices.googleProvider)
-      toast.success("Signed in with Google successfully!")
+      
+      // Store user type
+      localStorage.setItem('userType', accountType)
+      setUserType(accountType)
+      
+      toast.success(accountType === 'department' ? "Department signed in with Google successfully!" : "Signed in with Google successfully!")
       return result.user
     } catch (error) {
       console.error("Error signing in with Google:", error)
@@ -145,9 +162,11 @@ export function AuthProvider({ children }) {
       const { signOut: firebaseSignOut } = require("firebase/auth")
       await firebaseSignOut(firebaseServices.auth)
       
-      // Clear tokens
+      // Clear tokens and user type
       setIdToken(null)
+      setUserType('user')
       localStorage.removeItem('firebase-token')
+      localStorage.removeItem('userType')
       
       toast.success("Signed out successfully!")
     } catch (error) {
@@ -194,12 +213,32 @@ export function AuthProvider({ children }) {
     }
   }
 
+  // Test admin login function
+  const testAdminLogin = async () => {
+    const mockUser = {
+      uid: 'test-admin-123',
+      email: 'admin@dept.gov.in',
+      displayName: 'Test Admin',
+      photoURL: null,
+      emailVerified: true
+    }
+    
+    setUser(mockUser)
+    setUserType('department')
+    localStorage.setItem('userType', 'department')
+    setIdToken('mock-admin-token')
+    localStorage.setItem('firebase-token', 'mock-admin-token')
+    
+    return mockUser
+  }
+
   const value = {
     user,
     loading,
     authInitialized,
     idToken,
     tokenLoading,
+    userType,
     signUpWithEmail,
     signInWithEmail,
     signInWithGoogle,
@@ -207,6 +246,7 @@ export function AuthProvider({ children }) {
     signOut,
     getIdToken,
     getUserClaims,
+    testAdminLogin,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

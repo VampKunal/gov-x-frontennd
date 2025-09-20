@@ -53,3 +53,9 @@ firestore-debug.log
 
 # Misc
 Project Gov-x.docx
+
+# Backup directories
+.git-backup/
+
+# Nested git repositories
+Gov-x/

@@ -197,7 +197,7 @@ export function HoverNavbar() {
             <SheetContent 
               side="right"
               title="Navigation Menu" 
-              className="w-[280px] xs:w-[300px] sm:w-[350px] bg-black/95 backdrop-blur-xl border-l border-white/10"
+              className="w-[280px] xs:w-[300px] sm:w-[350px] bg-black/95 backdrop-blur-xl border-l border-white/10 px-2"
             >
               <div className="flex flex-col h-full pt-4 xxs:pt-6 xs:pt-8">
                 {/* Mobile Logo */}

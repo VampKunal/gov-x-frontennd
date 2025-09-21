@@ -1,15 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { DepartmentNavbar } from "@/components/ui/department-navbar"
+import { DepartmentNavbar } from "@/components/department/department-navbar"
 import { useAuth } from "@/hooks/use-auth"
 
 export function DepartmentLayout({ children }) {
   const { user, userType, loading } = useAuth()
   const router = useRouter()
-  const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
   const [redirected, setRedirected] = useState(false)
 

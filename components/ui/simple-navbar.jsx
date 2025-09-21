@@ -4,21 +4,17 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { 
-  Home, 
   Rss, 
   FileText, 
   Bell, 
   LayoutDashboard, 
-  User, 
-  Settings, 
-  LogOut,
   Menu,
   X,
   Code2
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useAuth } from "@/hooks/use-auth"
+import { UserPopover } from "../popover/user-popover"
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -37,10 +33,10 @@ export function SimpleNavbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <div className="flex h-16 items-center justify-between px-2 md:px-4">
         {/* Logo */}
-        <div className="mr-4 hidden md:flex">
-          <Link className="mr-6 flex items-center space-x-2" href="/dashboard">
+        <div className="flex">
+          <Link className="mr-6 flex items-center space-x-2 text-nowrap" href="/dashboard">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-br from-orange-500 to-green-500">
               <span className="text-sm font-bold text-white">GX</span>
             </div>
@@ -51,7 +47,7 @@ export function SimpleNavbar() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="flex items-center space-x-6 text-sm font-medium hidden md:flex">
+        <nav className="flex items-center md:space-x-6 lg:space-x-12 text-sm font-medium hidden md:flex">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
@@ -71,8 +67,16 @@ export function SimpleNavbar() {
           })}
         </nav>
 
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+        <div className="flex items-center justify-between space-x-2">
           {/* Mobile menu button */}
+          <div className="flex items-center space-x-2">
+            {/* User menu */}
+            <UserPopover 
+              name={user?.displayName}
+              image={user?.photoURL}
+              email={user?.email}
+              onSignOut={() => signOut()} />
+          </div>
           <div className="flex items-center md:hidden">
             <Button
               variant="ghost"
@@ -83,26 +87,6 @@ export function SimpleNavbar() {
               <span className="sr-only">Toggle Menu</span>
             </Button>
           </div>
-
-          <div className="flex items-center space-x-2">
-            {/* User menu */}
-            <div className="flex items-center space-x-2">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={user?.photoURL} alt={user?.displayName || "User"} />
-                <AvatarFallback className="bg-gradient-to-br from-orange-400 to-green-400 text-white">
-                  {user?.displayName?.charAt(0) || user?.email?.charAt(0) || "U"}
-                </AvatarFallback>
-              </Avatar>
-              <Button
-                variant="ghost"
-                onClick={() => signOut()}
-                className="text-sm"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -110,7 +94,7 @@ export function SimpleNavbar() {
       {mobileNavOpen && (
         <div className="border-b md:hidden">
           <div className="container py-4">
-            <nav className="grid grid-cols-2 gap-2">
+            <nav className="grid gap-2 z-10">
               {navItems.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href

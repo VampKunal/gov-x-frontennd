@@ -64,7 +64,7 @@ const AnimatedSection = ({ children, delay = 0 }) => {
 
 const ScrollToTop = () => (
   <motion.button
-    className="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl z-50"
+    className="fixed bottom-4 right-4 md:bottom-8 md:right-8 w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl z-50"
     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.9 }}

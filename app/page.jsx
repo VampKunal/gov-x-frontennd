@@ -106,7 +106,7 @@ export default function HomePage() {
               >
                 <feature.icon className="h-5 w-5 xxs:h-6 xxs:w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 text-white" />
               </div>
-              <h3 className="text-base xxs:text-lg xs:text-xl sm:text-2xl font-bold text-white mb-2 xxs:mb-3 xs:mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-blue-400 transition-all duration-300">
+              <h3 className="text-base xxs:text-lg xs:text-xl sm:text-2xl font-bold text-white mb-2 xxs:mb-3 xs:mb-4 transition-all duration-300">
                 {feature.title}
               </h3>
               <p className="text-xs xxs:text-sm xs:text-base text-gray-300 leading-relaxed group-hover:text-gray-200 transition-colors duration-300">

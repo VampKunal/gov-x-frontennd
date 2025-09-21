@@ -8,23 +8,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import {
-  LogOut,
   User,
-  Mail,
-  Sparkles,
   MessageSquare,
   TrendingUp,
   CheckCircle,
-  Clock,
   MapPin,
-  BarChart3,
   Bell,
-  Settings,
   Plus,
   Eye,
   Activity,
   Award,
-  Calendar,
   Filter,
   Search
 } from "lucide-react"
@@ -32,8 +25,7 @@ import { Loading } from "@/components/ui/loading"
 
 export default function DashboardPage() {
   const { user, loading } = useAuth()
-  const [notifications, setNotifications] = useState(3)
-
+//  const [notifications, setNotifications] = useState(3)
 
   if (loading) {
     return <Loading fullScreen size="lg" text="Loading your dashboard..." />
@@ -92,7 +84,7 @@ export default function DashboardPage() {
 
           {/* Stats Grid */}
           <motion.div
-            className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-4 gap-2 xxs:gap-3 xs:gap-4 md:gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-2 xxs:gap-3 xs:gap-4 md:gap-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}

@@ -347,27 +347,28 @@ export default function ReportIssuePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-900 dark:via-blue-900/20 dark:to-slate-900">
       {/* Header */}
-      <div className="bg-white/10 dark:bg-slate-800/10 backdrop-blur-sm border-b border-border/50 py-6">
-        <div className="container mx-auto px-4">
+      <div className="bg-white/10 dark:bg-slate-800/10 backdrop-blur-sm border-b border-border/50 py-3 xxs:py-4 xs:py-5 sm:py-6">
+        <div className="container mx-auto px-2 xxs:px-3 xs:px-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 xxs:space-x-3 xs:space-x-4">
               <Link
                 href="/dashboard"
-                className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
+                className="flex items-center space-x-1 xxs:space-x-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
-                <ArrowLeft className="h-4 w-4" />
-                <span className="font-medium">Back to Dashboard</span>
+                <ArrowLeft className="h-3 w-3 xxs:h-4 xxs:w-4" />
+                <span className="font-medium text-xs xxs:text-sm xs:text-base hidden xxs:inline">Back to Dashboard</span>
+                <span className="font-medium text-xs xxs:hidden">Back</span>
               </Link>
               
-              <div className="h-6 w-px bg-border/50" />
+              <div className="h-4 xxs:h-5 xs:h-6 w-px bg-border/50" />
               
-              <div className="flex items-center space-x-3">
-                <div className="h-10 w-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <Camera className="h-5 w-5 text-white" />
+              <div className="flex items-center space-x-2 xxs:space-x-3">
+                <div className="h-8 w-8 xxs:h-9 xxs:w-9 xs:h-10 xs:w-10 bg-blue-500 rounded-lg xxs:rounded-xl flex items-center justify-center shadow-lg">
+                  <Camera className="h-4 w-4 xxs:h-5 xxs:w-5 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-foreground">Report Issue</h1>
-                  <p className="text-sm text-muted-foreground">Help improve your community</p>
+                  <h1 className="text-base xxs:text-lg xs:text-xl font-bold text-foreground">Report Issue</h1>
+                  <p className="text-xs xxs:text-sm text-muted-foreground hidden xs:block">Help improve your community</p>
                 </div>
               </div>
             </div>
@@ -375,12 +376,12 @@ export default function ReportIssuePage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-2 xxs:px-3 xs:px-4 py-4 xxs:py-6 xs:py-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-2xl mx-auto space-y-6"
+          className="max-w-xs xxs:max-w-sm xs:max-w-lg sm:max-w-2xl mx-auto space-y-4 xxs:space-y-5 xs:space-y-6"
         >
           {/* Camera/Upload Section */}
           <motion.div variants={cardVariants}>
@@ -393,30 +394,31 @@ export default function ReportIssuePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {!capturedImage ? (
-                  <div className="space-y-4">
-                    <div className="border-2 border-dashed border-border/50 rounded-lg p-8 text-center">
-                      <div className="flex flex-col items-center space-y-4">
-                        <div className="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center">
-                          <Camera className="h-8 w-8 text-primary" />
+                  <div className="space-y-3 xxs:space-y-4">
+                    <div className="border-2 border-dashed border-border/50 rounded-lg p-4 xxs:p-6 xs:p-8 text-center">
+                      <div className="flex flex-col items-center space-y-3 xxs:space-y-4">
+                        <div className="h-12 w-12 xxs:h-14 xxs:w-14 xs:h-16 xs:w-16 bg-primary/10 rounded-full flex items-center justify-center">
+                          <Camera className="h-6 w-6 xxs:h-7 xxs:w-7 xs:h-8 xs:w-8 text-primary" />
                         </div>
                         <div>
-                          <p className="text-foreground font-medium mb-2">
+                          <p className="text-foreground font-medium mb-1 xxs:mb-2 text-sm xxs:text-base">
                             Take a photo or upload a file
                           </p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-xs xxs:text-sm text-muted-foreground px-2">
                             Our AI will analyze the image to identify the issue type
                           </p>
                         </div>
-                        <div className="flex space-x-3">
-                          <Button onClick={handleCameraClick} className="bg-blue-600 hover:bg-blue-700">
-                            <Camera className="h-4 w-4 mr-2" />
+                        <div className="flex flex-col xxs:flex-row space-y-2 xxs:space-y-0 xxs:space-x-3 w-full xxs:w-auto">
+                          <Button onClick={handleCameraClick} className="bg-blue-600 hover:bg-blue-700 w-full xxs:w-auto text-sm xxs:text-base px-3 xxs:px-4 h-9 xxs:h-10">
+                            <Camera className="h-3 w-3 xxs:h-4 xxs:w-4 mr-1 xxs:mr-2" />
                             Take Photo
                           </Button>
                           <Button 
                             variant="outline" 
                             onClick={() => fileInputRef.current?.click()}
+                            className="w-full xxs:w-auto text-sm xxs:text-base px-3 xxs:px-4 h-9 xxs:h-10"
                           >
-                            <Upload className="h-4 w-4 mr-2" />
+                            <Upload className="h-3 w-3 xxs:h-4 xxs:w-4 mr-1 xxs:mr-2" />
                             Upload File
                           </Button>
                         </div>
@@ -424,27 +426,27 @@ export default function ReportIssuePage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3 xxs:space-y-4">
                     <div className="relative">
                       <img
                         src={capturedImage.url}
                         alt="Captured issue"
-                        className="w-full h-64 object-cover rounded-lg border border-border/50"
+                        className="w-full h-48 xxs:h-56 xs:h-64 object-cover rounded-lg border border-border/50"
                       />
                       <button
                         onClick={removeImage}
-                        className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full"
+                        className="absolute top-2 right-2 p-1 xxs:p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full"
                       >
-                        <X className="h-4 w-4" />
+                        <X className="h-3 w-3 xxs:h-4 xxs:w-4" />
                       </button>
                     </div>
                     
                     {!analysisResult && !processing && (
                       <Button 
                         onClick={analyzeImage} 
-                        className="w-full bg-purple-600 hover:bg-purple-700"
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-sm xxs:text-base h-9 xxs:h-10"
                       >
-                        <Zap className="h-4 w-4 mr-2" />
+                        <Zap className="h-3 w-3 xxs:h-4 xxs:w-4 mr-1 xxs:mr-2" />
                         Analyze with AI
                       </Button>
                     )}
@@ -574,10 +576,9 @@ export default function ReportIssuePage() {
             <motion.div variants={cardVariants}>
               <Button
                 onClick={handleSubmit}
-                size="lg"
-                className="w-full bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 shadow-lg"
+                className="w-full bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 shadow-lg text-sm xxs:text-base xs:text-lg h-10 xxs:h-12 xs:h-14"
               >
-                <Send className="h-5 w-5 mr-2" />
+                <Send className="h-4 w-4 xxs:h-5 xxs:w-5 mr-1 xxs:mr-2" />
                 Submit Report
               </Button>
             </motion.div>

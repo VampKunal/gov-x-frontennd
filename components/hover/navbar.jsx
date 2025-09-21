@@ -93,31 +93,33 @@ export function HoverNavbar() {
       }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 md:h-18 items-center justify-between">
+      <div className="container mx-auto px-2 xxs:px-3 xs:px-4 sm:px-6 lg:px-8">
+        <div className="flex h-14 xxs:h-15 xs:h-16 md:h-18 items-center justify-between">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Link href="/" className="flex items-center space-x-3 group">
+            <Link href="/" className="flex items-center space-x-2 xxs:space-x-2.5 xs:space-x-3 group">
               <div className="relative">
                 <motion.div
-                  className="h-10 w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 flex items-center justify-center shadow-lg"
+                  className="h-8 w-8 xxs:h-9 xxs:w-9 xs:h-10 xs:w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 flex items-center justify-center shadow-lg"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Sparkles className="h-5 w-5 text-white" />
+                  <Sparkles className="h-4 w-4 xxs:h-4.5 xxs:w-4.5 xs:h-5 xs:w-5 text-white" />
                 </motion.div>
                 <motion.div
-                  className="absolute inset-0 h-10 w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 opacity-20"
+                  className="absolute inset-0 h-8 w-8 xxs:h-9 xxs:w-9 xs:h-10 xs:w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 opacity-20"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text text-transparent">
-                Gov-X India
+              <span className="text-sm xxs:text-base xs:text-lg sm:text-xl font-bold bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text text-transparent">
+                <span className="hidden xxs:inline">Gov-X</span>
+                <span className="hidden xs:inline"> India</span>
+                <span className="xxs:hidden">GX</span>
               </span>
             </Link>
           </motion.div>
@@ -138,27 +140,27 @@ export function HoverNavbar() {
 
           {/* Desktop Auth Area */}
           <motion.div
-            className="hidden md:flex items-center space-x-3"
+            className="hidden sm:flex items-center space-x-2 md:space-x-3"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
             {user ? (
               <Link href="/dashboard" aria-label="Open dashboard">
-                <Avatar className="h-9 w-9 border border-white/20">
+                <Avatar className="h-8 w-8 sm:h-9 sm:w-9 border border-white/20">
                   <AvatarImage src={user.photoURL || undefined} alt={user.displayName || "User"} />
-                  <AvatarFallback>{(user.displayName?.[0] || "U").toUpperCase()}</AvatarFallback>
+                  <AvatarFallback className="text-xs sm:text-sm">{(user.displayName?.[0] || "U").toUpperCase()}</AvatarFallback>
                 </Avatar>
               </Link>
             ) : (
               <>
                 <Link href="/auth/choice">
-                  <AnimatedButton variant="secondary" size="sm">
+                  <AnimatedButton variant="secondary" size="sm" className="text-xs sm:text-sm px-3 sm:px-4">
                     Log In
                   </AnimatedButton>
                 </Link>
                 <Link href="/auth/choice">
-                  <AnimatedButton variant="primary" size="sm">
+                  <AnimatedButton variant="primary" size="sm" className="text-xs sm:text-sm px-3 sm:px-4">
                     Sign Up
                   </AnimatedButton>
                 </Link>
@@ -170,7 +172,7 @@ export function HoverNavbar() {
           <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
             <SheetTrigger asChild>
               <motion.button
-                className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+                className="sm:hidden p-1.5 xxs:p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -183,9 +185,9 @@ export function HoverNavbar() {
                     transition={{ duration: 0.2 }}
                   >
                     {mobileNavOpen ? (
-                      <X className="h-5 w-5 text-white" />
+                      <X className="h-4 w-4 xxs:h-5 xxs:w-5 text-white" />
                     ) : (
-                      <Menu className="h-5 w-5 text-white" />
+                      <Menu className="h-4 w-4 xxs:h-5 xxs:w-5 text-white" />
                     )}
                   </motion.div>
                 </AnimatePresence>
@@ -193,27 +195,28 @@ export function HoverNavbar() {
             </SheetTrigger>
 
             <SheetContent 
-              side="right" 
-              className="w-[300px] sm:w-[350px] bg-black/95 backdrop-blur-xl border-l border-white/10"
+              side="right"
+              title="Navigation Menu" 
+              className="w-[280px] xs:w-[300px] sm:w-[350px] bg-black/95 backdrop-blur-xl border-l border-white/10"
             >
-              <div className="flex flex-col h-full pt-8">
+              <div className="flex flex-col h-full pt-4 xxs:pt-6 xs:pt-8">
                 {/* Mobile Logo */}
                 <motion.div 
-                  className="flex items-center space-x-3 mb-8"
+                  className="flex items-center space-x-2 xxs:space-x-3 mb-6 xxs:mb-8"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 flex items-center justify-center shadow-lg">
-                    <Sparkles className="h-5 w-5 text-white" />
+                  <div className="h-8 w-8 xxs:h-10 xxs:w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 flex items-center justify-center shadow-lg">
+                    <Sparkles className="h-4 w-4 xxs:h-5 xxs:w-5 text-white" />
                   </div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text text-transparent">
+                  <span className="text-lg xxs:text-xl xs:text-2xl font-bold bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text text-transparent">
                     Gov-X India
                   </span>
                 </motion.div>
 
                 {/* Mobile Navigation */}
-                <nav className="flex flex-col space-y-2 mb-8 flex-1">
+                <nav className="flex flex-col space-y-1 xxs:space-y-2 mb-6 xxs:mb-8 flex-1">
                   {(user ? navItems : publicNavItems).map((item, index) => (
                     <motion.div
                       key={item.label}
@@ -224,7 +227,7 @@ export function HoverNavbar() {
                       <Link
                         href={item.href}
                         onClick={() => setMobileNavOpen(false)}
-                        className="group block text-lg font-medium text-white hover:text-orange-400 transition-all duration-300 py-3 px-4 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/20"
+                        className="group block text-base xxs:text-lg font-medium text-white hover:text-orange-400 transition-all duration-300 py-2 xxs:py-3 px-3 xxs:px-4 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/20"
                       >
                         <motion.span
                           className="group-hover:translate-x-2 transition-transform duration-300 inline-block"
@@ -239,28 +242,30 @@ export function HoverNavbar() {
 
                 {/* Mobile Auth Area */}
                 <motion.div 
-                  className="flex flex-col space-y-3 pb-4"
+                  className="flex flex-col space-y-2 xxs:space-y-3 pb-3 xxs:pb-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
                 >
                   {user ? (
-                    <Link href="/dashboard" onClick={() => setMobileNavOpen(false)} className="flex items-center space-x-3 p-3 rounded-xl bg-white/10 border border-white/20">
-                      <Avatar className="h-9 w-9">
+                    <Link href="/dashboard" onClick={() => setMobileNavOpen(false)} className="flex items-center space-x-2 xxs:space-x-3 p-2 xxs:p-3 rounded-xl bg-white/10 border border-white/20">
+                      <Avatar className="h-8 w-8 xxs:h-9 xxs:w-9">
                         <AvatarImage src={user.photoURL || undefined} alt={user.displayName || "User"} />
-                        <AvatarFallback>{(user.displayName?.[0] || "U").toUpperCase()}</AvatarFallback>
+                        <AvatarFallback className="text-xs xxs:text-sm">{(user.displayName?.[0] || "U").toUpperCase()}</AvatarFallback>
                       </Avatar>
-                      <span className="text-white font-medium">{user.displayName || user.email || "Profile"}</span>
+                      <span className="text-white font-medium text-sm xxs:text-base truncate">
+                        {user.displayName || user.email || "Profile"}
+                      </span>
                     </Link>
                   ) : (
                     <>
                       <Link href="/auth/choice" onClick={() => setMobileNavOpen(false)}>
-                        <AnimatedButton variant="secondary" className="w-full h-12 text-base">
+                        <AnimatedButton variant="secondary" className="w-full h-10 xxs:h-12 text-sm xxs:text-base">
                           Log In
                         </AnimatedButton>
                       </Link>
                       <Link href="/auth/choice" onClick={() => setMobileNavOpen(false)}>
-                        <AnimatedButton variant="primary" className="w-full h-12 text-base">
+                        <AnimatedButton variant="primary" className="w-full h-10 xxs:h-12 text-sm xxs:text-base">
                           Sign Up
                         </AnimatedButton>
                       </Link>

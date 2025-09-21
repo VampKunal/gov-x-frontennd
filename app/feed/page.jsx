@@ -206,43 +206,43 @@ export default function FeedPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-2 xxs:px-3 xs:px-4 py-4 xxs:py-6 xs:py-8 max-w-6xl">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-4 xxs:mb-5 xs:mb-6 sm:mb-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-3 sm:space-y-4 mb-6 sm:mb-8"
+            className="text-center space-y-2 xxs:space-y-3 xs:space-y-4 mb-4 xxs:mb-5 xs:mb-6 sm:mb-8"
           >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
+            <h1 className="text-lg xxs:text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
               🇮🇳 Community Issues Feed
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground px-4">
+            <p className="text-xs xxs:text-sm xs:text-base text-muted-foreground px-2 xxs:px-4">
               Stay updated on civic issues in your area and across India
             </p>
           </motion.div>
 
           {/* Search and Filters */}
-          <div className="flex flex-col gap-4 mb-6">
-            <div className="px-2 sm:px-0">
+          <div className="flex flex-col gap-3 xxs:gap-4 mb-4 xxs:mb-5 xs:mb-6">
+            <div className="px-0 xxs:px-1 sm:px-0">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-2 xxs:left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 xxs:h-4 xxs:w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search issues, locations, or descriptions..."
+                  placeholder="Search issues, locations..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-card border-border touch-target h-12"
+                  className="pl-7 xxs:pl-10 bg-card border-border touch-target h-9 xxs:h-10 xs:h-12 text-xs xxs:text-sm xs:text-base"
                 />
               </div>
             </div>
-            <div className="flex gap-2 overflow-x-auto pb-2 px-2 sm:px-0 scrollbar-hide">
+            <div className="flex gap-1 xxs:gap-2 overflow-x-auto pb-1 xxs:pb-2 px-0 xxs:px-1 sm:px-0 scrollbar-hide">
               {filters.map((filter) => (
                 <Button
                   key={filter}
                   variant={selectedFilter === filter ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedFilter(filter)}
-                  className="whitespace-nowrap touch-target min-w-fit"
+                  className="whitespace-nowrap touch-target min-w-fit text-xs xxs:text-sm px-2 xxs:px-3 h-7 xxs:h-8 xs:h-9"
                 >
                   {filter}
                 </Button>
@@ -251,9 +251,9 @@ export default function FeedPage() {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid lg:grid-cols-4 gap-4 xxs:gap-5 xs:gap-6 lg:gap-8">
           {/* Main Feed */}
-          <div className="lg:col-span-3 space-y-4 sm:space-y-6">
+          <div className="lg:col-span-3 space-y-3 xxs:space-y-4 xs:space-y-5 sm:space-y-6">
             {filteredProblems.map((problem) => (
               <ProblemCard
                 key={problem.id}
@@ -266,10 +266,10 @@ export default function FeedPage() {
             ))}
             
             {filteredProblems.length === 0 && (
-              <div className="text-center py-12 px-4">
-                <div className="text-4xl sm:text-6xl mb-4">🔍</div>
-                <h3 className="text-base sm:text-lg font-medium mb-2">No issues found</h3>
-                <p className="text-sm sm:text-base text-muted-foreground">
+              <div className="text-center py-8 xxs:py-10 xs:py-12 px-2 xxs:px-4">
+                <div className="text-3xl xxs:text-4xl xs:text-5xl sm:text-6xl mb-3 xxs:mb-4">🔍</div>
+                <h3 className="text-sm xxs:text-base xs:text-lg font-medium mb-1 xxs:mb-2">No issues found</h3>
+                <p className="text-xs xxs:text-sm xs:text-base text-muted-foreground">
                   Try adjusting your search or filters
                 </p>
               </div>
@@ -277,22 +277,22 @@ export default function FeedPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
+          <div className="space-y-3 xxs:space-y-4 xs:space-y-5 sm:space-y-6 px-0 xxs:px-1 sm:px-0">
             {/* Trending */}
             <Card className="glass border-border/50">
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-2 mb-4">
-                  <TrendingUp className="h-5 w-5 text-orange-400" />
-                  <h3 className="font-semibold">Trending in India</h3>
+              <CardContent className="p-3 xxs:p-4">
+                <div className="flex items-center space-x-1.5 xxs:space-x-2 mb-3 xxs:mb-4">
+                  <TrendingUp className="h-4 w-4 xxs:h-5 xxs:w-5 text-orange-400" />
+                  <h3 className="font-semibold text-sm xxs:text-base">Trending in India</h3>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2 xxs:space-y-3">
                   {trendingTopics.map((topic, index) => (
                     <motion.div
                       key={index}
-                      className="p-2 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
+                      className="p-1.5 xxs:p-2 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
                       whileHover={{ x: 4 }}
                     >
-                      <div className="font-medium text-sm text-orange-400">{topic.tag}</div>
+                      <div className="font-medium text-xs xxs:text-sm text-orange-400">{topic.tag}</div>
                       <div className="text-xs text-muted-foreground">{topic.count}</div>
                     </motion.div>
                   ))}
@@ -302,20 +302,20 @@ export default function FeedPage() {
 
             {/* Quick Stats */}
             <Card className="glass border-border/50">
-              <CardContent className="p-4">
-                <h3 className="font-semibold mb-4">Today's Impact</h3>
-                <div className="space-y-3">
+              <CardContent className="p-3 xxs:p-4">
+                <h3 className="font-semibold text-sm xxs:text-base mb-3 xxs:mb-4">Today's Impact</h3>
+                <div className="space-y-2 xxs:space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">New Reports</span>
-                    <span className="font-medium text-orange-400">127</span>
+                    <span className="text-xs xxs:text-sm text-muted-foreground">New Reports</span>
+                    <span className="font-medium text-orange-400 text-xs xxs:text-sm">127</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Resolved Issues</span>
-                    <span className="font-medium text-green-400">89</span>
+                    <span className="text-xs xxs:text-sm text-muted-foreground">Resolved Issues</span>
+                    <span className="font-medium text-green-400 text-xs xxs:text-sm">89</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Active Users</span>
-                    <span className="font-medium text-blue-400">2.1K</span>
+                    <span className="text-xs xxs:text-sm text-muted-foreground">Active Users</span>
+                    <span className="font-medium text-blue-400 text-xs xxs:text-sm">2.1K</span>
                   </div>
                 </div>
               </CardContent>
@@ -325,7 +325,7 @@ export default function FeedPage() {
 
         {/* Floating New Post Button */}
         <motion.button
-          className="fixed bottom-6 right-4 sm:right-6 w-14 h-14 sm:w-16 sm:h-16 bg-primary hover:bg-primary/90 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl z-50 touch-target"
+          className="fixed bottom-4 right-3 xxs:bottom-5 xxs:right-4 xs:bottom-6 xs:right-4 sm:right-6 w-12 h-12 xxs:w-13 xxs:h-13 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-primary hover:bg-primary/90 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl z-50 touch-target"
           onClick={() => setIsNewPostOpen(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -333,7 +333,7 @@ export default function FeedPage() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
         >
-          <Plus className="h-6 w-6 sm:h-7 sm:w-7" />
+          <Plus className="h-5 w-5 xxs:h-5.5 xxs:w-5.5 xs:h-6 xs:w-6 sm:h-7 sm:w-7" />
           <span className="sr-only">Create new post</span>
         </motion.button>
         

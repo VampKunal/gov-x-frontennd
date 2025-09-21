@@ -56,21 +56,21 @@ export default function DashboardPage() {
 
       <div className="relative z-10">
         {/* Main Content */}
-        <main className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6 md:pt-8 pb-6 md:pb-8 space-y-6 md:space-y-8">
+        <main className="container mx-auto px-2 xxs:px-3 xs:px-4 sm:px-6 lg:px-8 pt-4 xxs:pt-5 xs:pt-6 md:pt-8 pb-4 xxs:pb-5 xs:pb-6 md:pb-8 space-y-4 xxs:space-y-5 xs:space-y-6 md:space-y-8">
           {/* Welcome Banner */}
           <motion.div
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary/10 via-accent/10 to-primary/5 p-6 md:p-8 border border-primary/20"
+            className="relative overflow-hidden rounded-2xl xxs:rounded-3xl bg-gradient-to-r from-primary/10 via-accent/10 to-primary/5 p-3 xxs:p-4 xs:p-6 md:p-8 border border-primary/20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <div className="relative z-10">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div className="space-y-2">
-                  <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-orange-400 via-white to-green-400 bg-clip-text text-transparent">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 xxs:gap-4">
+                <div className="space-y-1 xxs:space-y-2">
+                  <h1 className="text-lg xxs:text-xl xs:text-2xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-orange-400 via-white to-green-400 bg-clip-text text-transparent leading-tight">
                     Welcome back, {user?.email?.split('@')[0] || 'Citizen'}! 🇮🇳
                   </h1>
-                  <p className="text-muted-foreground text-sm md:text-base">
+                  <p className="text-muted-foreground text-xs xxs:text-sm md:text-base leading-relaxed">
                     Start by reporting an issue or browse what's happening in your community.
                   </p>
                 </div>
@@ -79,8 +79,8 @@ export default function DashboardPage() {
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                  <Button size="lg" className="w-full md:w-auto shadow-lg bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600" onClick={() => window.location.href = '/report'}>
-                    <Plus className="h-4 w-4 mr-2" />
+                  <Button size={"sm"} className="w-full sm:w-auto shadow-lg bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 text-xs xxs:text-sm xs:text-base px-3 xxs:px-4 xs:px-6 h-8 xxs:h-10 xs:h-12" onClick={() => window.location.href = '/report'}>
+                    <Plus className="h-3 w-3 xxs:h-4 xxs:w-4 mr-1 xxs:mr-2" />
                     📤 Report Issue
                   </Button>
                 </motion.div>
@@ -92,7 +92,7 @@ export default function DashboardPage() {
 
           {/* Stats Grid */}
           <motion.div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+            className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-4 gap-2 xxs:gap-3 xs:gap-4 md:gap-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -137,17 +137,17 @@ export default function DashboardPage() {
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
                 <Card className="glass border-border/50 hover:border-primary/30 transition-all duration-300">
-                  <CardContent className="p-4 md:p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className={`p-2 rounded-xl ${stat.bgColor}`}>
-                        <stat.icon className={`h-4 w-4 md:h-5 md:w-5 text-${stat.color}`} />
+                  <CardContent className="p-2 xxs:p-3 xs:p-4 md:p-6">
+                    <div className="flex items-center justify-between mb-2 xxs:mb-3">
+                      <div className={`p-1.5 xxs:p-2 rounded-lg xxs:rounded-xl ${stat.bgColor}`}>
+                        <stat.icon className={`h-3 w-3 xxs:h-4 xxs:w-4 md:h-5 md:w-5 text-${stat.color}`} />
                       </div>
-                      <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                      <TrendingUp className="h-3 w-3 xxs:h-4 xxs:w-4 text-muted-foreground" />
                     </div>
-                    <div className="space-y-1">
-                      <p className="text-2xl md:text-3xl font-bold gradient-text">{stat.value}</p>
-                      <p className="text-xs md:text-sm font-medium text-foreground">{stat.label}</p>
-                      <p className="text-xs text-muted-foreground">{stat.change}</p>
+                    <div className="space-y-0.5 xxs:space-y-1">
+                      <p className="text-lg xxs:text-xl xs:text-2xl md:text-3xl font-bold gradient-text">{stat.value}</p>
+                      <p className="text-xs xs:text-sm font-medium text-foreground leading-tight">{stat.label}</p>
+                      <p className="text-xs text-muted-foreground leading-tight hidden xxs:block">{stat.change}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -155,7 +155,7 @@ export default function DashboardPage() {
             ))}
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid lg:grid-cols-3 gap-4 xxs:gap-5 xs:gap-6 md:gap-8">
             {/* Recent Activity */}
             <motion.div
               className="lg:col-span-2 space-y-6"

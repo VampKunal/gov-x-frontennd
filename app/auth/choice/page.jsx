@@ -49,15 +49,15 @@ const floatingAnimation = {
 
 export default function AuthChoicePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900/20 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0">
         <motion.div
-          className="absolute top-20 left-20 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl"
+          className="absolute top-20 left-20 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl"
           animate={floatingAnimation}
         />
         <motion.div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-20 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl"
           animate={{
             y: [10, -10, 10],
             transition: {
@@ -68,7 +68,7 @@ export default function AuthChoicePage() {
           }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-green-600/10 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 w-64 h-64 bg-purple-800/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             transition: {
@@ -94,7 +94,7 @@ export default function AuthChoicePage() {
           <motion.div variants={cardVariants} className="mb-8">
             <Link
               href="/"
-              className="inline-flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-200"
+              className="inline-flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="font-medium">Back to Home</span>
@@ -109,20 +109,20 @@ export default function AuthChoicePage() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
-                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 flex items-center justify-center shadow-lg">
-                  <Sparkles className="h-6 w-6 text-white" />
+                <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-purple-600 to-violet-600 flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-lg">GX</span>
                 </div>
-                <div className="absolute inset-0 h-12 w-12 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 animate-ping opacity-20" />
+                <div className="absolute inset-0 h-12 w-12 rounded-xl bg-gradient-to-br from-purple-600 to-violet-600 animate-ping opacity-20" />
               </motion.div>
-              <span className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text text-transparent">
+              <span className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">
                 Gov-X India
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
               Choose Your Login Type
             </h1>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Select the type of account you want to access. Citizens report issues, departments manage and resolve them.
             </p>
           </motion.div>
@@ -137,10 +137,10 @@ export default function AuthChoicePage() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Link href="/auth">
-                  <Card className="h-full bg-gradient-to-br from-blue-600/10 to-purple-600/10 border-blue-500/20 hover:border-blue-400/40 backdrop-blur-xl shadow-2xl transition-all duration-300 overflow-hidden relative">
+                  <Card className="h-full bg-gradient-to-br from-purple-600/10 to-violet-600/10 border-purple-500/20 hover:border-purple-400/40 backdrop-blur-xl shadow-2xl transition-all duration-300 overflow-hidden relative">
                     {/* Animated background gradient */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-violet-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       animate={floatingAnimation}
                     />
                     
@@ -148,7 +148,7 @@ export default function AuthChoicePage() {
                       <div className="text-center space-y-6">
                         {/* Icon */}
                         <motion.div
-                          className="mx-auto w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
+                          className="mx-auto w-20 h-20 bg-gradient-to-r from-purple-600 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
                           whileHover={{ rotate: 5 }}
                           transition={{ type: "spring", stiffness: 400 }}
                         >
@@ -156,40 +156,40 @@ export default function AuthChoicePage() {
                         </motion.div>
 
                         {/* Badge */}
-                        <Badge variant="secondary" className="bg-blue-600/20 text-blue-300 border-blue-600/30">
+                        <Badge variant="secondary" className="bg-purple-600/20 text-purple-300 border-purple-600/30">
                           <Camera className="h-3 w-3 mr-1" />
                           For Citizens
                         </Badge>
 
                         {/* Title */}
-                        <h2 className="text-2xl font-bold text-white group-hover:text-blue-300 transition-colors duration-300">
+                        <h2 className="text-2xl font-bold text-foreground group-hover:text-purple-300 transition-colors duration-300">
                           Citizen Login
                         </h2>
 
                         {/* Description */}
-                        <p className="text-gray-300 leading-relaxed">
+                        <p className="text-muted-foreground leading-relaxed">
                           Report civic issues, track your submissions, and contribute to building a better community through AI-powered issue detection.
                         </p>
 
                         {/* Features */}
                         <div className="space-y-3 text-left">
-                          <div className="flex items-center space-x-3 text-sm text-gray-300">
-                            <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+                          <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
                             <span>Scan and report potholes, garbage dumps, and more</span>
                           </div>
-                          <div className="flex items-center space-x-3 text-sm text-gray-300">
-                            <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+                          <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
                             <span>Track your issue reports and resolutions</span>
                           </div>
-                          <div className="flex items-center space-x-3 text-sm text-gray-300">
-                            <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+                          <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
                             <span>Join community discussions and voting</span>
                           </div>
                         </div>
 
                         {/* Button */}
                         <div className="pt-4">
-                          <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl">
+                          <Button className="w-full bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl">
                             <span>Continue as Citizen</span>
                             <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
                           </Button>
@@ -207,10 +207,10 @@ export default function AuthChoicePage() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Link href="/department/auth">
-                  <Card className="h-full bg-gradient-to-br from-orange-600/10 to-red-600/10 border-orange-500/20 hover:border-orange-400/40 backdrop-blur-xl shadow-2xl transition-all duration-300 overflow-hidden relative">
+                  <Card className="h-full bg-gradient-to-br from-purple-800/10 to-purple-900/10 border-purple-700/20 hover:border-purple-600/40 backdrop-blur-xl shadow-2xl transition-all duration-300 overflow-hidden relative">
                     {/* Animated background gradient */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-orange-600/5 to-red-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute inset-0 bg-gradient-to-br from-purple-800/5 to-purple-900/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       animate={{
                         y: [5, -5, 5],
                         transition: {
@@ -225,7 +225,7 @@ export default function AuthChoicePage() {
                       <div className="text-center space-y-6">
                         {/* Icon */}
                         <motion.div
-                          className="mx-auto w-20 h-20 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
+                          className="mx-auto w-20 h-20 bg-gradient-to-r from-purple-800 to-purple-900 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
                           whileHover={{ rotate: -5 }}
                           transition={{ type: "spring", stiffness: 400 }}
                         >
@@ -233,40 +233,40 @@ export default function AuthChoicePage() {
                         </motion.div>
 
                         {/* Badge */}
-                        <Badge variant="secondary" className="bg-orange-600/20 text-orange-300 border-orange-600/30">
+                        <Badge variant="secondary" className="bg-purple-800/20 text-purple-300 border-purple-800/30">
                           <Shield className="h-3 w-3 mr-1" />
                           For Departments
                         </Badge>
 
                         {/* Title */}
-                        <h2 className="text-2xl font-bold text-white group-hover:text-orange-300 transition-colors duration-300">
+                        <h2 className="text-2xl font-bold text-foreground group-hover:text-purple-300 transition-colors duration-300">
                           Department Login
                         </h2>
 
                         {/* Description */}
-                        <p className="text-gray-300 leading-relaxed">
+                        <p className="text-muted-foreground leading-relaxed">
                           Manage civic issues, track resolutions, and coordinate with your team to efficiently solve community problems.
                         </p>
 
                         {/* Features */}
                         <div className="space-y-3 text-left">
-                          <div className="flex items-center space-x-3 text-sm text-gray-300">
-                            <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+                          <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
                             <span>Review and assign incoming issue reports</span>
                           </div>
-                          <div className="flex items-center space-x-3 text-sm text-gray-300">
-                            <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+                          <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
                             <span>Track team progress and performance metrics</span>
                           </div>
-                          <div className="flex items-center space-x-3 text-sm text-gray-300">
-                            <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+                          <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
                             <span>Upload resolution proof and manage workflows</span>
                           </div>
                         </div>
 
                         {/* Button */}
                         <div className="pt-4">
-                          <Button className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl">
+                          <Button className="w-full bg-gradient-to-r from-purple-800 to-purple-900 hover:from-purple-900 hover:to-purple-950 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl">
                             <span>Continue as Department</span>
                             <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
                           </Button>
@@ -274,7 +274,7 @@ export default function AuthChoicePage() {
 
                         {/* Test Credentials Note */}
                         <div className="pt-2 border-t border-gray-700/50">
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs text-muted-foreground">
                             Test Login: admin@dept.gov.in / admin123
                           </p>
                         </div>
@@ -288,9 +288,9 @@ export default function AuthChoicePage() {
 
           {/* Bottom Note */}
           <motion.div variants={cardVariants} className="text-center mt-12">
-            <p className="text-gray-500 text-sm">
+            <p className="text-muted-foreground text-sm">
               Having trouble logging in?{' '}
-              <Link href="/auth/forgot-password" className="text-blue-400 hover:text-blue-300 transition-colors duration-200">
+              <Link href="/auth/forgot-password" className="text-purple-400 hover:text-purple-300 transition-colors duration-200">
                 Reset your password
               </Link>{' '}
               or contact support for assistance.

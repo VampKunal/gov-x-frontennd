@@ -104,19 +104,19 @@ export function HoverNavbar() {
             <Link href="/" className="flex items-center space-x-2 xxs:space-x-2.5 xs:space-x-3 group">
               <div className="relative">
                 <motion.div
-                  className="h-8 w-8 xxs:h-9 xxs:w-9 xs:h-10 xs:w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 flex items-center justify-center shadow-lg"
+                  className="h-8 w-8 xxs:h-9 xxs:w-9 xs:h-10 xs:w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
                   <Sparkles className="h-4 w-4 xxs:h-4.5 xxs:w-4.5 xs:h-5 xs:w-5 text-white" />
                 </motion.div>
                 <motion.div
-                  className="absolute inset-0 h-8 w-8 xxs:h-9 xxs:w-9 xs:h-10 xs:w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 opacity-20"
+                  className="absolute inset-0 h-8 w-8 xxs:h-9 xxs:w-9 xs:h-10 xs:w-10 rounded-xl bg-gradient-to-br from-primary to-accent animate-ping opacity-20"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
               </div>
-              <span className="text-sm xxs:text-base xs:text-lg sm:text-xl font-bold bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text text-transparent">
+              <span className="text-sm xxs:text-base xs:text-lg sm:text-xl font-bold gradient-text">
                 <span className="hidden xxs:inline">Gov-X</span>
                 <span className="hidden xs:inline"> India</span>
                 <span className="xxs:hidden">GX</span>
@@ -207,10 +207,10 @@ export function HoverNavbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <div className="h-8 w-8 xxs:h-10 xxs:w-10 rounded-xl bg-gradient-to-br from-orange-600 to-green-600 flex items-center justify-center shadow-lg">
+                  <div className="h-8 w-8 xxs:h-10 xxs:w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
                     <Sparkles className="h-4 w-4 xxs:h-5 xxs:w-5 text-white" />
                   </div>
-                  <span className="text-lg xxs:text-xl xs:text-2xl font-bold bg-gradient-to-r from-orange-400 to-green-400 bg-clip-text text-transparent">
+                  <span className="text-lg xxs:text-xl xs:text-2xl font-bold gradient-text">
                     Gov-X India
                   </span>
                 </motion.div>

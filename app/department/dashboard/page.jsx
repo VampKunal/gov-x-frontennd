@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { DepartmentLayout } from '@/components/layouts/department-layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -91,7 +90,7 @@ export default function DepartmentDashboard() {
       title: 'Unresolved Issues',
       value: dashboardData.unresolvedIssues,
       icon: AlertTriangle,
-      color: 'bg-orange-500',
+      color: 'bg-yellow-500',
       description: 'Pending resolution',
       trend: '-5.2%',
       href: '/department/unresolved'
@@ -117,8 +116,7 @@ export default function DepartmentDashboard() {
   ]
 
   return (
-    <DepartmentLayout>
-      <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -201,10 +199,10 @@ export default function DepartmentDashboard() {
                     <Link href="/department/unresolved">
                       <Button
                         variant="outline"
-                        className="w-full h-20 flex flex-col items-center justify-center space-y-2 bg-orange-50 hover:bg-orange-100 border-orange-200 dark:bg-orange-900/20 dark:hover:bg-orange-900/30 dark:border-orange-800"
+                        className="w-full h-20 flex flex-col items-center justify-center space-y-2 bg-yellow-50 hover:bg-yellow-100 border-yellow-200 dark:bg-yellow-900/20 dark:hover:bg-yellow-900/30 dark:border-yellow-800"
                       >
-                        <Clock className="h-6 w-6 text-orange-600 dark:text-orange-400" />
-                        <span className="text-sm font-medium text-orange-700 dark:text-orange-300">
+                        <Clock className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+                        <span className="text-sm font-medium text-yellow-700 dark:text-yellow-300">
                           Review Pending ({dashboardData.zeroActionIssues})
                         </span>
                       </Button>
@@ -359,6 +357,5 @@ export default function DepartmentDashboard() {
           </motion.div>
         </motion.div>
       </div>
-    </DepartmentLayout>
   )
 }

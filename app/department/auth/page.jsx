@@ -103,15 +103,15 @@ export default function DepartmentAuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900/20 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-background relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0">
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl"
           animate={floatingAnimation}
         />
         <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl"
           animate={{
             y: [10, -10, 10],
             transition: {
@@ -122,7 +122,7 @@ export default function DepartmentAuthPage() {
           }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-green-600/10 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 w-64 h-64 bg-purple-800/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             transition: {
@@ -158,11 +158,11 @@ export default function DepartmentAuthPage() {
           {/* Header */}
           <motion.div className="text-center space-y-4" variants={itemVariants}>
             <motion.div
-              className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg"
+              className="mx-auto w-16 h-16 bg-gradient-to-r from-purple-600 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg"
               whileHover={{ scale: 1.05, rotate: 5 }}
               transition={{ type: "spring", stiffness: 400 }}
             >
-              <Building2 className="h-8 w-8 text-white" />
+              <span className="text-white font-bold text-2xl">GX</span>
             </motion.div>
 
             <div className="space-y-2">
@@ -172,7 +172,7 @@ export default function DepartmentAuthPage() {
               <p className="text-gray-400 text-lg">
                 Secure access for government departments
               </p>
-              <Badge variant="secondary" className="bg-blue-600/20 text-blue-300 border-blue-600/30">
+              <Badge variant="secondary" className="bg-purple-600/20 text-purple-300 border-purple-600/30">
                 <Shield className="h-3 w-3 mr-1" />
                 Authorized Personnel Only
               </Badge>

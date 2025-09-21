@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { BentoCard, BentoGrid, BentoMetric, BentoFeature, BentoList } from "@/components/ui/bento-card"
 import {
   User,
   MessageSquare,
@@ -59,8 +60,8 @@ export default function DashboardPage() {
             <div className="relative z-10">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 xxs:gap-4">
                 <div className="space-y-1 xxs:space-y-2">
-                  <h1 className="text-lg xxs:text-xl xs:text-2xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-orange-400 via-white to-green-400 bg-clip-text text-transparent leading-tight">
-                    Welcome back, {user?.email?.split('@')[0] || 'Citizen'}! 🇮🇳
+                  <h1 className="text-lg xxs:text-xl xs:text-2xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 via-white to-violet-400 bg-clip-text text-transparent leading-tight">
+                    Welcome back, {user?.email?.split('@')[0] || 'Citizen'}!
                   </h1>
                   <p className="text-muted-foreground text-xs xxs:text-sm md:text-base leading-relaxed">
                     Start by reporting an issue or browse what's happening in your community.
@@ -71,80 +72,49 @@ export default function DashboardPage() {
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                  <Button size={"sm"} className="w-full sm:w-auto shadow-lg bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 text-xs xxs:text-sm xs:text-base px-3 xxs:px-4 xs:px-6 h-8 xxs:h-10 xs:h-12" onClick={() => window.location.href = '/report'}>
+                  <Button size={"sm"} className="w-full sm:w-auto shadow-lg bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-xs xxs:text-sm xs:text-base px-3 xxs:px-4 xs:px-6 h-8 xxs:h-10 xs:h-12" onClick={() => window.location.href = '/report'}>
                     <Plus className="h-3 w-3 xxs:h-4 xxs:w-4 mr-1 xxs:mr-2" />
-                    📤 Report Issue
+                    Report Issue
                   </Button>
                 </motion.div>
               </div>
             </div>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-violet-500/10 rounded-full blur-2xl" />
           </motion.div>
 
-          {/* Stats Grid */}
+          {/* Stats Grid - Bento Style */}
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-2 xxs:gap-3 xs:gap-4 md:gap-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {[
-              {
-                icon: MessageSquare,
-                label: "My Reports",
-                value: "0",
-                change: "+0 this week",
-                color: "primary",
-                bgColor: "bg-primary/10"
-              },
-              {
-                icon: Eye,
-                label: "Following",
-                value: "0",
-                change: "+0 this week",
-                color: "accent",
-                bgColor: "bg-accent/10"
-              },
-              {
-                icon: CheckCircle,
-                label: "Resolved",
-                value: "0",
-                change: "68% rate",
-                color: "primary",
-                bgColor: "bg-primary/10"
-              },
-              {
-                icon: Award,
-                label: "Impact Score",
-                value: "0",
-                change: "Community rank",
-                color: "accent",
-                bgColor: "bg-accent/10"
-              }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.02, y: -2 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <Card className="glass border-border/50 hover:border-primary/30 transition-all duration-300">
-                  <CardContent className="p-2 xxs:p-3 xs:p-4 md:p-6">
-                    <div className="flex items-center justify-between mb-2 xxs:mb-3">
-                      <div className={`p-1.5 xxs:p-2 rounded-lg xxs:rounded-xl ${stat.bgColor}`}>
-                        <stat.icon className={`h-3 w-3 xxs:h-4 xxs:w-4 md:h-5 md:w-5 text-${stat.color}`} />
-                      </div>
-                      <TrendingUp className="h-3 w-3 xxs:h-4 xxs:w-4 text-muted-foreground" />
-                    </div>
-                    <div className="space-y-0.5 xxs:space-y-1">
-                      <p className="text-lg xxs:text-xl xs:text-2xl md:text-3xl font-bold gradient-text">{stat.value}</p>
-                      <p className="text-xs xs:text-sm font-medium text-foreground leading-tight">{stat.label}</p>
-                      <p className="text-xs text-muted-foreground leading-tight hidden xxs:block">{stat.change}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+            <BentoGrid className="grid-cols-1 sm:grid-cols-3">
+              <BentoMetric
+                title="My Reports"
+                value="0"
+                change="+0 this week"
+                icon={MessageSquare}
+                color="primary"
+                trend="neutral"
+              />
+              <BentoMetric
+                title="Resolved Issues"
+                value="0"
+                change="68% rate"
+                icon={CheckCircle}
+                color="success"
+                trend="up"
+              />
+              <BentoMetric
+                title="Impact Score"
+                value="0"
+                change="Community rank"
+                icon={Award}
+                color="primary"
+                trend="neutral"
+              />
+            </BentoGrid>
           </motion.div>
 
           <div className="grid lg:grid-cols-3 gap-4 xxs:gap-5 xs:gap-6 md:gap-8 max-w-screen">
@@ -181,7 +151,7 @@ export default function DashboardPage() {
                       title: "Streetlight repair completed",
                       time: "1 day ago",
                       status: "Resolved",
-                      statusColor: "bg-green-500/20 text-green-600"
+                      statusColor: "bg-purple-500/20 text-purple-600"
                     },
                     {
                       icon: Eye,

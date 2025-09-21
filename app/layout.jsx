@@ -1,7 +1,7 @@
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/hooks/use-auth"
-import { AppLayout } from "@/components/layouts/app-layout"
+import { ModernLayout } from "@/components/layouts/modern-layout"
 import { Toaster } from "react-hot-toast"
 
 const spaceGrotesk = Space_Grotesk({
@@ -95,7 +95,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon-32.svg" type="image/svg+xml" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -110,11 +110,11 @@ export default function RootLayout({ children }) {
         <meta name="msapplication-TileColor" content="#080208" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
-      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased dark`}>
+      <body className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <AuthProvider>
-          <AppLayout>
+          <ModernLayout>
             {children}
-          </AppLayout>
+          </ModernLayout>
           <Toaster
             position="top-right"
             toastOptions={{

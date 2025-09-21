@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { DepartmentLayout } from '@/components/layouts/department-layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -20,7 +20,9 @@ import {
   Upload,
   MessageSquare,
   ThumbsUp,
-  X
+  X,
+  FileImage,
+  Plus
 } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
@@ -49,6 +51,8 @@ export default function ResolvedIssuesPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedIssue, setSelectedIssue] = useState(null)
   const [showProofUpload, setShowProofUpload] = useState(false)
+  const [uploadedFiles, setUploadedFiles] = useState([])
+  const fileInputRef = useRef(null)
 
   // Mock data for resolved issues
   const resolvedIssues = [
@@ -129,8 +133,45 @@ export default function ResolvedIssuesPage() {
     setShowProofUpload(true)
   }
 
+  const handleFileUpload = (event) => {
+    const files = Array.from(event.target.files)
+    if (files.length === 0) return
+    
+    const newFiles = files.map(file => ({
+      file,
+      url: URL.createObjectURL(file),
+      id: Date.now() + Math.random()
+    }))
+    
+    setUploadedFiles(prev => [...prev, ...newFiles])
+  }
+  
+  const removeFile = (fileId) => {
+    setUploadedFiles(prev => {
+      const updatedFiles = prev.filter(f => f.id !== fileId)
+      // Cleanup blob URLs
+      const fileToRemove = prev.find(f => f.id === fileId)
+      if (fileToRemove) {
+        URL.revokeObjectURL(fileToRemove.url)
+      }
+      return updatedFiles
+    })
+  }
+  
   const handleUploadSubmit = () => {
-    toast.success('Proof images uploaded successfully!')
+    if (uploadedFiles.length === 0) {
+      toast.error('Please upload at least one proof image')
+      return
+    }
+    
+    toast.success(`${uploadedFiles.length} proof images uploaded successfully!`)
+    
+    // Cleanup
+    uploadedFiles.forEach(file => {
+      URL.revokeObjectURL(file.url)
+    })
+    
+    setUploadedFiles([])
     setShowProofUpload(false)
     setSelectedIssue(null)
   }
@@ -332,18 +373,18 @@ export default function ResolvedIssuesPage() {
                           </div>
                         </div>
                       ) : (
-                        <div className="border-2 border-dashed border-orange-300 dark:border-orange-800 rounded-lg p-6 text-center">
-                          <Camera className="h-8 w-8 text-orange-500 mx-auto mb-2" />
-                          <p className="text-orange-700 dark:text-orange-300 font-medium mb-2">
-                            Proof Images Pending
-                          </p>
-                          <p className="text-orange-600 dark:text-orange-400 text-sm mb-4">
-                            Upload before/after images to complete the resolution record.
-                          </p>
+        <div className="border-2 border-dashed border-blue-300 dark:border-blue-800 rounded-lg p-6 text-center">
+          <Camera className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+          <p className="text-blue-700 dark:text-blue-300 font-medium mb-2">
+            Proof Images Pending
+          </p>
+          <p className="text-blue-600 dark:text-blue-400 text-sm mb-4">
+            Upload before/after images to complete the resolution record.
+          </p>
                           <Button
                             onClick={() => handleProofUpload(issue.id)}
                             size="sm"
-                            className="bg-orange-600 hover:bg-orange-700"
+                            className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white"
                           >
                             <Upload className="h-4 w-4 mr-2" />
                             Upload Proof
@@ -372,7 +413,7 @@ export default function ResolvedIssuesPage() {
                             <Button 
                               onClick={() => handleProofUpload(issue.id)}
                               size="sm" 
-                              className="bg-green-600 hover:bg-green-700"
+                              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white"
                             >
                               <Upload className="h-4 w-4 mr-2" />
                               Add Proof
@@ -438,16 +479,61 @@ export default function ResolvedIssuesPage() {
               </div>
               
               <div className="p-6 space-y-4">
-                <div className="border-2 border-dashed border-border/50 rounded-lg p-8 text-center">
+                {/* File Upload Area */}
+                <div 
+                  className="border-2 border-dashed border-border/50 hover:border-primary/50 rounded-lg p-8 text-center transition-colors duration-200 cursor-pointer"
+                  onClick={() => fileInputRef.current?.click()}
+                >
                   <Camera className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                   <p className="text-muted-foreground mb-4">
                     Click to upload or drag and drop images
+                  </p>
+                  <p className="text-xs text-muted-foreground mb-4">
+                    Supports: JPG, PNG, WebP (Max 5MB each)
                   </p>
                   <Button variant="outline">
                     <Upload className="h-4 w-4 mr-2" />
                     Choose Files
                   </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
                 </div>
+                
+                {/* Uploaded Files Preview */}
+                {uploadedFiles.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-foreground">
+                      Uploaded Files ({uploadedFiles.length})
+                    </h4>
+                    <div className="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto">
+                      {uploadedFiles.map((file) => (
+                        <div key={file.id} className="relative group">
+                          <img
+                            src={file.url}
+                            alt="Upload preview"
+                            className="w-full h-20 object-cover rounded-lg border border-border/50"
+                          />
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              removeFile(file.id)
+                            }}
+                            className="absolute -top-2 -right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 rounded-lg transition-colors duration-200" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="p-6 pt-0 flex justify-end space-x-3">
@@ -459,7 +545,8 @@ export default function ResolvedIssuesPage() {
                 </Button>
                 <Button
                   onClick={handleUploadSubmit}
-                  className="bg-green-600 hover:bg-green-700"
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white"
+                  disabled={uploadedFiles.length === 0}
                 >
                   <Upload className="h-4 w-4 mr-2" />
                   Upload Proof

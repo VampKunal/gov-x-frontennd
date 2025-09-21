@@ -89,7 +89,7 @@ export default function AuthPage() {
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
                 <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
-                  <Sparkles className="h-6 w-6 text-primary-foreground" />
+                  <span className="text-white font-bold text-lg">GX</span>
                 </div>
                 <div className="absolute inset-0 h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-accent animate-ping opacity-20" />
               </motion.div>
@@ -131,7 +131,7 @@ export default function AuthPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className="glass border-border/50 shadow-2xl">
+            <Card className="glass border-border/50 shadow-2xl backdrop-blur-xl bg-white/95 dark:bg-slate-900/95">
               <CardHeader className="space-y-4 pb-6">
                 <div className="flex bg-muted/50 rounded-xl p-1">
                   <Button
@@ -190,7 +190,7 @@ export default function AuthPage() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full bg-background/50 border-border/50 hover:bg-primary/5 hover:border-primary/30 transition-all duration-300 h-12"
+                    className="w-full bg-gradient-to-r from-white to-gray-50 dark:from-slate-800 dark:to-slate-700 border-border/50 hover:from-blue-50 hover:to-purple-50 dark:hover:from-slate-700 dark:hover:to-slate-600 hover:border-primary/30 transition-all duration-300 h-12 shadow-sm hover:shadow-md"
                     onClick={handleGoogleAuth}
                     disabled={loading}
                   >
@@ -341,7 +341,7 @@ export default function AuthPage() {
                   >
                     <Button 
                       type="submit" 
-                      className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-primary/25"
+                      className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
                       disabled={loading}
                     >
                       {loading ? (
@@ -423,13 +423,13 @@ export default function AuthPage() {
                   >
                     <Users className="h-5 w-5 text-primary" />
                   </motion.div>
-                  <span className="font-semibold text-foreground">🇮🇳 Join 10,000+ Indian citizens</span>
+                  <span className="font-semibold text-foreground">Join 10,000+ Indian citizens</span>
                 </div>
                 <ul className="text-sm text-muted-foreground space-y-2">
                   {[
                     { icon: CheckCircle, text: "Scan potholes, garbage dumps & more with AI" },
                     { icon: Shield, text: "Auto-connect with Municipal Corps & authorities" },
-                    { icon: Sparkles, text: "Build a cleaner, safer India together" }
+                    { icon: Users, text: "Build a cleaner, safer India together" }
                   ].map((item, index) => (
                     <motion.li 
                       key={index}

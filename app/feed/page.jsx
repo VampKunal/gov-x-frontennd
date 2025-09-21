@@ -323,25 +323,25 @@ export default function FeedPage() {
           </div>
         </div>
 
-        {/* Floating New Post Button */}
-        <motion.button
-          className="fixed bottom-4 right-3 xxs:bottom-5 xxs:right-4 xs:bottom-6 xs:right-4 sm:right-6 w-12 h-12 xxs:w-13 xxs:h-13 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-primary hover:bg-primary/90 rounded-full flex items-center justify-center text-white shadow-lg hover:shadow-xl z-50 touch-target"
-          onClick={() => setIsNewPostOpen(true)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0, y: 100 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-        >
-          <Plus className="h-5 w-5 xxs:h-5.5 xxs:w-5.5 xs:h-6 xs:w-6 sm:h-7 sm:w-7" />
-          <span className="sr-only">Create new post</span>
-        </motion.button>
-        
-        <NewPostModal 
-          isOpen={isNewPostOpen} 
-          onClose={() => setIsNewPostOpen(false)}
-          onSubmit={handleNewPostSubmit}
-        />
+        {/* Instagram-style Report Button */}
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+          <motion.button
+            className="group relative bg-gradient-to-r from-orange-500 to-green-500 hover:from-orange-600 hover:to-green-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 font-medium"
+            onClick={() => window.location.href = '/report'}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0, y: 100 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+          >
+            <Plus className="h-5 w-5" />
+            <span className="hidden sm:inline">Report Issue</span>
+            <span className="sm:hidden">Report</span>
+            
+            {/* Glow effect */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-400 to-green-400 opacity-0 group-hover:opacity-20 blur transition-opacity duration-300" />
+          </motion.button>
+        </div>
       </div>
     </div>
   )

@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { DepartmentNavbar } from "@/components/department/department-navbar"
+import { DepartmentSidebarNav } from "@/components/navigation/department-sidebar-nav"
+import { DepartmentBottomNav } from "@/components/navigation/department-bottom-nav"
 import { useAuth } from "@/hooks/use-auth"
 
 export function DepartmentLayout({ children }) {
@@ -50,8 +51,14 @@ export function DepartmentLayout({ children }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 dark:from-slate-900 dark:via-blue-900/20 dark:to-slate-900">
-      <DepartmentNavbar />
-      <main>
+      {/* Desktop Sidebar */}
+      <DepartmentSidebarNav />
+      
+      {/* Mobile Bottom Navigation */}
+      <DepartmentBottomNav />
+      
+      {/* Main Content */}
+      <main className="lg:ml-16 pb-16 lg:pb-0">
         {children}
       </main>
     </div>

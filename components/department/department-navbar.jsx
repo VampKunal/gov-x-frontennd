@@ -89,55 +89,36 @@ export function DepartmentNavbar() {
             <Link href="/department/dashboard" className="flex items-center space-x-3 group">
               <div className="relative">
                 <motion.div
-                  className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg"
+                  className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg"
                   whileHover={{ rotate: 5 }}
                   transition={{ duration: 0.3 }}
                 >
                   <Building2 className="h-5 w-5 text-white" />
                 </motion.div>
                 <motion.div
-                  className="absolute inset-0 h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 opacity-20"
+                  className="absolute inset-0 h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent animate-ping opacity-20"
                   animate={{ scale: [1, 1.1, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
               </div>
               <div>
-                <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Department Portal
+                <span className="text-lg font-bold gradient-text">
+                  Gov-X India
                 </span>
-                <div className="text-xs text-muted-foreground">Gov-X India</div>
+                <div className="text-xs text-muted-foreground">Department Portal</div>
               </div>
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 + 0.2 }}
-              >
-                <NavItem href={item.href} icon={item.icon}>
-                  {item.label}
-                </NavItem>
-              </motion.div>
-            ))}
-          </nav>
+          {/* Desktop Navigation - Hidden on large screens as we use sidebar */}
 
-          {/* Desktop User Area */}
+          {/* Desktop User Area - Only profile pic */}
           <motion.div
-            className="hidden md:flex items-center space-x-4"
+            className="hidden lg:flex items-center space-x-4"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Badge variant="secondary" className="bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-              <Activity className="h-3 w-3 mr-1" />
-              Department
-            </Badge>
-            
             <div className="flex items-center space-x-3">
               <Avatar className="h-9 w-9 border border-border/50">
                 <AvatarImage src={user?.photoURL} alt="Department User" />
@@ -145,21 +126,11 @@ export function DepartmentNavbar() {
                   {user?.displayName?.charAt(0) || user?.email?.charAt(0)?.toUpperCase() || 'D'}
                 </AvatarFallback>
               </Avatar>
-              
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleSignOut}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
-              </Button>
             </div>
           </motion.div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <motion.button
               className="p-2 rounded-lg bg-background/50 hover:bg-background/80 transition-colors"
               whileHover={{ scale: 1.05 }}
@@ -178,7 +149,7 @@ export function DepartmentNavbar() {
         {/* Mobile Navigation */}
         {mobileNavOpen && (
           <motion.div
-            className="md:hidden border-t border-border/50 mt-4 pt-4"
+            className="lg:hidden border-t border-border/50 mt-4 pt-4"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

@@ -11,33 +11,33 @@
   --card-foreground: #1a1a1a;
   --popover: #ffffff;
   --popover-foreground: #1a1a1a;
-  --primary: #ff6b35; /* Modern civic orange */
+  --primary: #3b82f6; /* Blue primary */
   --primary-foreground: #ffffff;
-  --secondary: #f8fafc;
-  --secondary-foreground: #334155;
-  --muted: #f1f5f9;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #475569;
+  --muted: #f8fafc;
   --muted-foreground: #64748b;
-  --accent: #e0f2fe;
-  --accent-foreground: #0c4a6e;
+  --accent: #a855f7; /* Purple accent */
+  --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --border: #e2e8f0;
   --input: #f8fafc;
-  --ring: #ff6b35;
-  --chart-1: #ff6b35; /* Civic orange */
-  --chart-2: #10b981; /* Government green */
-  --chart-3: #3b82f6; /* Trust blue */
-  --chart-4: #f59e0b; /* Warning amber */
-  --chart-5: #8b5cf6; /* Progress purple */
+  --ring: #3b82f6;
+  --chart-1: #3b82f6; /* Blue */
+  --chart-2: #8b5cf6; /* Purple */
+  --chart-3: #06b6d4; /* Cyan */
+  --chart-4: #6366f1; /* Indigo */
+  --chart-5: #a855f7; /* Violet */
   --radius: 0.75rem;
   --sidebar: #ffffff;
   --sidebar-foreground: #1a1a1a;
-  --sidebar-primary: #ff6b35;
+  --sidebar-primary: #3b82f6;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f8fafc;
   --sidebar-accent-foreground: #334155;
   --sidebar-border: #e2e8f0;
-  --sidebar-ring: #ff6b35;
+  --sidebar-ring: #3b82f6;
   /* New civic-themed colors */
   --success: #10b981;
   --success-foreground: #ffffff;
@@ -59,32 +59,32 @@
   --card-foreground: #f8fafc; /* Clean white */
   --popover: #1e293b; /* Elevated surface */
   --popover-foreground: #f8fafc; /* Clean white */
-  --primary: #ff6b35; /* Consistent civic orange */
+  --primary: #3b82f6; /* Blue primary */
   --primary-foreground: #ffffff;
   --secondary: #334155; /* Professional gray */
   --secondary-foreground: #f1f5f9;
   --muted: #475569; /* Muted elements */
   --muted-foreground: #94a3b8;
-  --accent: #1e40af; /* Dark blue accent */
+  --accent: #a855f7; /* Purple accent */
   --accent-foreground: #f8fafc;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --border: #334155; /* Subtle borders */
   --input: #475569; /* Input backgrounds */
-  --ring: #ff6b35;
-  --chart-1: #ff6b35; /* Civic orange */
-  --chart-2: #10b981; /* Government green */
-  --chart-3: #3b82f6; /* Trust blue */
-  --chart-4: #f59e0b; /* Warning amber */
-  --chart-5: #8b5cf6; /* Progress purple */
+  --ring: #3b82f6;
+  --chart-1: #3b82f6; /* Blue */
+  --chart-2: #8b5cf6; /* Purple */
+  --chart-3: #06b6d4; /* Cyan */
+  --chart-4: #6366f1; /* Indigo */
+  --chart-5: #a855f7; /* Violet */
   --sidebar: #0f1419;
   --sidebar-foreground: #f8fafc;
-  --sidebar-primary: #ff6b35;
+  --sidebar-primary: #3b82f6;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #334155;
   --sidebar-accent-foreground: #f1f5f9;
   --sidebar-border: #334155;
-  --sidebar-ring: #ff6b35;
+  --sidebar-ring: #3b82f6;
   /* New civic-themed colors for dark */
   --success: #10b981;
   --success-foreground: #ffffff;
@@ -165,12 +165,13 @@
   }
 }
 
-/* Indian theme colors */
+/* Gov-X India branding gradient */
 .gradient-text {
-  background: linear-gradient(45deg, #ff9933, #ffffff, #138808);
+  background: linear-gradient(135deg, #3b82f6, #a855f7, #6366f1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: bold;
 }
 
 .glass {
@@ -289,13 +290,29 @@
   animation: bounce-gentle 2s infinite;
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+/* Additional Gov-X gradient styles */
+.gov-x-gradient {
+  background: linear-gradient(135deg, #ff9933, #ffffff, #138808);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
+  font-weight: bold;
+}
+
+.gov-x-bg-gradient {
+  background: linear-gradient(135deg, #3b82f6, #a855f7);
+}
+
+.gov-x-border-gradient {
+  background: linear-gradient(135deg, #3b82f6, #a855f7);
+  border-radius: 0.75rem;
+  padding: 2px;
+}
+
+.gov-x-border-gradient > * {
+  background: var(--background);
+  border-radius: calc(0.75rem - 2px);
 }
 
 /* Additional gradient variants */

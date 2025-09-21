@@ -175,7 +175,7 @@ function NotificationCard({ notification, onMarkRead, onDelete }) {
                   {notification.title}
                 </h3>
                 {!notification.isRead && (
-                  <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0 ml-2 mt-1" />
+                  <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0 ml-2 mt-1 animate-pulse duration-200" />
                 )}
               </div>
               
@@ -184,7 +184,8 @@ function NotificationCard({ notification, onMarkRead, onDelete }) {
               </p>
 
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
+                <div className="md:flex items-center space-x-3 space-y-3 md:space-y-0 justify-center">
+                  <div className="sm:flex space-x-3 items-center space-y-3 sm:space-y-0">
                   <span className="text-xs text-muted-foreground flex items-center">
                     <Clock className="h-3 w-3 mr-1" />
                     {notification.timestamp}
@@ -196,7 +197,7 @@ function NotificationCard({ notification, onMarkRead, onDelete }) {
                       {notification.data.location}
                     </span>
                   )}
-
+                  </div>
                   <Badge 
                     variant="outline" 
                     className={`text-xs ${
@@ -222,9 +223,9 @@ function NotificationCard({ notification, onMarkRead, onDelete }) {
                     </Button>
                   )}
                   <Button
-                    variant="ghost" 
+                    variant="destructive" 
                     size="sm"
-                    className="h-8 w-8 p-0 text-red-400 hover:text-red-500"
+                    className="h-8 w-8 p-0"
                     onClick={() => onDelete(notification.id)}
                   >
                     <Trash2 className="h-4 w-4" />

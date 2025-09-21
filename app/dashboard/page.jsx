@@ -147,7 +147,7 @@ export default function DashboardPage() {
             ))}
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-4 xxs:gap-5 xs:gap-6 md:gap-8">
+          <div className="grid lg:grid-cols-3 gap-4 xxs:gap-5 xs:gap-6 md:gap-8 max-w-screen">
             {/* Recent Activity */}
             <motion.div
               className="lg:col-span-2 space-y-6"
@@ -202,7 +202,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-foreground truncate">{activity.title}</p>
-                        <div className="flex items-center justify-between mt-1">
+                        <div className="sm:flex items-center justify-between mt-1">
                           <p className="text-sm text-muted-foreground">{activity.time}</p>
                           <Badge className={`text-xs ${activity.statusColor} border-0`}>
                             {activity.status}

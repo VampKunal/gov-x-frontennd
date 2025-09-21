@@ -118,7 +118,7 @@ export default function DepartmentNotifications() {
           animate="visible"
           className="space-y-4"
         >
-          {notifications.map((notification, index) => (
+          {notifications.map((notification) => (
             <motion.div key={notification.id} variants={cardVariants}>
               <Card className={`bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 ${
                 !notification.read ? 'border-l-4 border-l-primary' : ''
@@ -138,7 +138,7 @@ export default function DepartmentNotifications() {
                     </div>
                     
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="md:flex items-center justify-between mb-2">
                         <h3 className={`font-semibold ${!notification.read ? 'text-foreground' : 'text-muted-foreground'}`}>
                           {notification.title}
                         </h3>

@@ -107,11 +107,11 @@ export default function DepartmentAuthPage() {
       {/* Animated background elements */}
       <div className="absolute inset-0">
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-orange-600/10 rounded-full blur-3xl"
           animate={floatingAnimation}
         />
         <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-violet-600/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-96 h-96 bg-orange-700/10 rounded-full blur-3xl"
           animate={{
             y: [10, -10, 10],
             transition: {
@@ -122,7 +122,7 @@ export default function DepartmentAuthPage() {
           }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-purple-800/10 rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 w-64 h-64 bg-orange-800/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             transition: {
@@ -157,8 +157,8 @@ export default function DepartmentAuthPage() {
 
           {/* Header */}
           <motion.div className="text-center space-y-4" variants={itemVariants}>
-            <motion.div
-              className="mx-auto w-16 h-16 bg-gradient-to-r from-purple-600 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg"
+          <motion.div
+              className="mx-auto w-16 h-16 bg-gradient-to-r from-orange-600 to-orange-700 rounded-2xl flex items-center justify-center shadow-lg"
               whileHover={{ scale: 1.05, rotate: 5 }}
               transition={{ type: "spring", stiffness: 400 }}
             >
@@ -172,7 +172,7 @@ export default function DepartmentAuthPage() {
               <p className="text-gray-400 text-lg">
                 Secure access for government departments
               </p>
-              <Badge variant="secondary" className="bg-purple-600/20 text-purple-300 border-purple-600/30">
+              <Badge variant="secondary" className="bg-orange-600/20 text-orange-300 border-orange-600/30">
                 <Shield className="h-3 w-3 mr-1" />
                 Authorized Personnel Only
               </Badge>
@@ -271,7 +271,7 @@ export default function DepartmentAuthPage() {
                   <motion.div variants={itemVariants}>
                     <Button
                       type="submit"
-                      className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                      className="w-full h-12 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                       disabled={isLoading}
                     >
                       <AnimatePresence mode="wait">
@@ -326,7 +326,7 @@ export default function DepartmentAuthPage() {
               Are you a citizen looking to report issues?{' '}
               <Link
                 href="/auth"
-                className="text-blue-400 hover:text-blue-300 font-medium transition-colors duration-200"
+                className="text-orange-400 hover:text-orange-300 font-medium transition-colors duration-200"
               >
                 Citizen Login
               </Link>

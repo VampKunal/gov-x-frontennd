@@ -24,7 +24,8 @@ import {
   Locate,
   Star,
   Clock,
-  Shield
+  Shield,
+  Building2
 } from 'lucide-react'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
@@ -54,7 +55,7 @@ export default function ReportIssuePage() {
   const searchParams = useSearchParams()
   const [capturedImage, setCapturedImage] = useState(null)
   const [description, setDescription] = useState('')
-  const [location, setLocation] = useState('Mall Road, District 5') // Dummy location for now
+  const [location, setLocation] = useState('Detecting location...') // Will be auto-detected
   const [processing, setProcessing] = useState(false)
   const [analysisResult, setAnalysisResult] = useState(null)
   const [showCamera, setShowCamera] = useState(false)
@@ -63,6 +64,7 @@ export default function ReportIssuePage() {
   const [priority, setPriority] = useState('medium')
   const [locationLoading, setLocationLoading] = useState(false)
   const [confidence, setConfidence] = useState(0)
+  const [selectedDepartment, setSelectedDepartment] = useState('')
   
   const videoRef = useRef(null)
   const canvasRef = useRef(null)
@@ -87,6 +89,10 @@ export default function ReportIssuePage() {
             // Clean up URL parameter
             router.replace('/report')
             toast.success('Photo loaded successfully!')
+            // Trigger AI analysis automatically
+            setTimeout(() => {
+              analyzeImage()
+            }, 1000)
           })
           .catch(error => {
             console.error('Error loading captured image:', error)
@@ -95,6 +101,21 @@ export default function ReportIssuePage() {
       }
     }
   }, [searchParams, router])
+
+  // Auto-trigger AI analysis when image is set
+  useEffect(() => {
+    if (capturedImage && !processing && !analysisResult) {
+      console.log('Auto-triggering AI analysis for captured image')
+      setTimeout(() => {
+        analyzeImage()
+      }, 500)
+    }
+  }, [capturedImage])
+
+  // Auto-detect location on page load
+  useEffect(() => {
+    getCurrentLocation()
+  }, [])
 
   // Check if device is mobile
   const checkIsMobile = () => {
@@ -187,6 +208,10 @@ export default function ReportIssuePage() {
           stopCamera()
           setShowCamera(false)
           toast.success('Photo captured successfully!')
+          // Automatically trigger AI analysis
+          setTimeout(() => {
+            analyzeImage()
+          }, 500) // Small delay to ensure image is loaded
         }
       }, 'image/jpeg', 0.9)
     }
@@ -207,6 +232,8 @@ export default function ReportIssuePage() {
     if (file) {
       const imageUrl = URL.createObjectURL(file)
       setCapturedImage({ file, url: imageUrl })
+      toast.success('Image uploaded successfully!')
+      // AI analysis will be triggered automatically by useEffect
     }
   }
 
@@ -234,9 +261,9 @@ export default function ReportIssuePage() {
       
       const { latitude, longitude } = position.coords
       
-      // Mock reverse geocoding (in real app, use a geocoding service)
-      const mockAddress = `Lat: ${latitude.toFixed(6)}, Long: ${longitude.toFixed(6)}`
-      setLocation(mockAddress)
+      // Format coordinates with better precision
+      const formattedLocation = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`
+      setLocation(formattedLocation)
       toast.success('Location detected successfully!')
     } catch (error) {
       console.error('Location error:', error)
@@ -248,6 +275,7 @@ export default function ReportIssuePage() {
 
   // Simulate AI analysis
   const analyzeImage = async () => {
+    console.log('Starting AI analysis...')
     setProcessing(true)
     setConfidence(0)
     
@@ -301,7 +329,12 @@ export default function ReportIssuePage() {
     const result = mockResults[Math.floor(Math.random() * mockResults.length)]
     setAnalysisResult(result)
     setPriority(result.priority)
+    setSelectedDepartment(result.department)
     setProcessing(false)
+    
+    // Show success message
+    console.log('AI analysis completed:', result)
+    toast.success(`${result.type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} detected! Routing to ${result.department}`)
   }
 
   // Submit report
@@ -311,18 +344,24 @@ export default function ReportIssuePage() {
       return
     }
     
+    if (!analysisResult) {
+      toast.error('Please wait for AI analysis to complete')
+      return
+    }
+    
+    // Only require description, make it shorter minimum
     if (!description.trim()) {
-      toast.error('Please provide a description')
+      toast.error('Please provide a brief description')
       return
     }
     
-    if (description.trim().length < 20) {
-      toast.error('Description must be at least 20 characters long')
+    if (description.trim().length < 10) {
+      toast.error('Description must be at least 10 characters long')
       return
     }
-    
-    if (!location.trim()) {
-      toast.error('Please provide a location')
+
+    if (!selectedDepartment) {
+      toast.error('Department assignment is required')
       return
     }
 
@@ -460,414 +499,345 @@ export default function ReportIssuePage() {
           animate="visible"
           className="max-w-6xl mx-auto"
         >
-          {/* Bento Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 auto-rows-min">
-            {/* Camera/Upload Section - Large Bento Card */}
-            <motion.div variants={cardVariants} className="lg:col-span-2 lg:row-span-2">
-              <Card className="h-full bg-gradient-to-br from-white to-blue-50/50 dark:from-slate-900 dark:to-blue-950/30 border-blue-200/50 dark:border-blue-800/30 shadow-xl">
-                <CardContent className="p-6 h-full flex flex-col">
-                  <div className="flex items-center space-x-3 mb-6">
-                    <div className="h-10 w-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                      <Camera className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <h2 className="text-lg font-semibold text-blue-900 dark:text-blue-100">Capture Issue</h2>
-                      <p className="text-sm text-blue-600 dark:text-blue-400">Take or upload a photo of the problem</p>
-                    </div>
-                  </div>
-                  
+          {/* Compact Single-Column Layout */}
+          <div className="space-y-6">
+            {/* Camera Section - Compact */}
+            <motion.div variants={cardVariants}>
+              <Card className="bg-gradient-to-br from-white to-blue-50/50 dark:from-slate-900 dark:to-blue-950/30 border-blue-200/50 dark:border-blue-800/30 shadow-lg">
+                <CardContent className="p-4">
                   {!capturedImage ? (
-                    <div className="flex-1 flex flex-col justify-center">
-                      <div className="border-2 border-dashed border-blue-300 dark:border-blue-700 rounded-2xl p-8 text-center bg-blue-50/50 dark:bg-blue-900/20 hover:bg-blue-100/50 dark:hover:bg-blue-900/30 transition-colors">
-                        <div className="flex flex-col items-center space-y-4">
-                          <div className="h-20 w-20 bg-blue-100 dark:bg-blue-900/50 rounded-2xl flex items-center justify-center">
-                            <Camera className="h-10 w-10 text-blue-600 dark:text-blue-400" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-blue-900 dark:text-blue-100 text-lg">Ready to Report?</h3>
-                            <p className="text-blue-600 dark:text-blue-400 mt-2 max-w-md">
-                              Capture a clear photo showing the issue. Good lighting and multiple angles help authorities respond faster.
-                            </p>
-                          </div>
-                        </div>
+                    <div className="text-center space-y-4">
+                      <div className="h-16 w-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto">
+                        <Camera className="h-8 w-8 text-white" />
+                      </div>
+                      <div>
+                        <h2 className="text-lg font-semibold text-blue-900 dark:text-blue-100">Add Photo</h2>
+                        <p className="text-sm text-blue-600 dark:text-blue-400">Snap or upload the issue</p>
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-4 mt-6">
+                      <div className="flex gap-3 justify-center">
                         <Button 
                           onClick={handleCameraClick}
-                          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white h-12 rounded-xl shadow-lg"
+                          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl shadow-lg flex-1 max-w-32"
                         >
-                          <Camera className="h-5 w-5 mr-2" />
-                          Use Camera
+                          <Camera className="h-4 w-4 mr-1" />
+                          Camera
                         </Button>
                         <Button 
                           onClick={() => fileInputRef.current?.click()}
                           variant="outline" 
-                          className="border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 h-12 rounded-xl"
+                          className="border-blue-300 dark:border-blue-700 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl flex-1 max-w-32"
                         >
-                          <Upload className="h-5 w-5 mr-2" />
-                          Upload File
+                          <Upload className="h-4 w-4 mr-1" />
+                          Upload
                         </Button>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex-1">
-                      <div className="relative mb-4">
-                        <img
-                          src={capturedImage.url}
-                          alt="Captured issue"
-                          className="w-full h-64 object-cover rounded-2xl border border-blue-200/50 dark:border-blue-800/50"
-                        />
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h2 className="text-lg font-semibold text-blue-900 dark:text-blue-100">Issue Photo</h2>
                         <button
                           onClick={removeImage}
-                          className="absolute top-3 right-3 p-2 bg-red-500 hover:bg-red-600 text-white rounded-xl shadow-lg transition-colors"
+                          className="p-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
                         >
                           <X className="h-4 w-4" />
                         </button>
                       </div>
+                      <img
+                        src={capturedImage.url}
+                        alt="Captured issue"
+                        className="w-full h-48 object-cover rounded-xl border border-blue-200/50 dark:border-blue-800/50"
+                      />
                       
-                      {!analysisResult && !processing && (
-                        <Button 
-                          onClick={analyzeImage} 
-                          className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white h-12 rounded-xl shadow-lg"
-                        >
-                          <Zap className="h-5 w-5 mr-2" />
-                          Analyze with AI
-                        </Button>
+                      {/* Manual AI Analysis Button if auto-trigger fails */}
+                      {!processing && !analysisResult && (
+                        <div className="mt-3">
+                          <Button
+                            onClick={analyzeImage}
+                            size="sm"
+                            className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white text-xs"
+                          >
+                            <Zap className="h-3 w-3 mr-1" />
+                            Start AI Analysis
+                          </Button>
+                        </div>
                       )}
                     </div>
                   )}
 
-                {/* Hidden file input */}
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  capture={isMobile ? "environment" : undefined}
-                  onChange={handleFileInput}
-                  className="hidden"
-                />
-              </CardContent>
-            </Card>
-          </motion.div>
+                  {/* Hidden file input */}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    capture={isMobile ? "environment" : undefined}
+                    onChange={handleFileInput}
+                    className="hidden"
+                  />
+                </CardContent>
+              </Card>
+            </motion.div>
           
-          {/* Quick Tips - Side Panel */}
-          <motion.div variants={cardVariants}>
-            <Card className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/30 dark:to-indigo-950/30 border-purple-200/50 dark:border-purple-800/30 shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="h-8 w-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                    <Lightbulb className="h-4 w-4 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-purple-900 dark:text-purple-100">Quick Tips</h3>
-                </div>
-                <div className="space-y-3 text-sm">
-                  <div className="flex items-start space-x-2">
-                    <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-purple-700 dark:text-purple-300">Take photos in good lighting</p>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-purple-700 dark:text-purple-300">Show the full scope of the problem</p>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-purple-700 dark:text-purple-300">Include nearby landmarks</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-          
-          {/* Progress Stats - Side Panel */}
-          <motion.div variants={cardVariants}>
-            <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 border-emerald-200/50 dark:border-emerald-800/30 shadow-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="h-8 w-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-                    <Star className="h-4 w-4 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-emerald-900 dark:text-emerald-100">Your Impact</h3>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-emerald-700 dark:text-emerald-300">Reports Made</span>
-                    <span className="font-semibold text-emerald-900 dark:text-emerald-100">12</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-emerald-700 dark:text-emerald-300">Issues Resolved</span>
-                    <span className="font-semibold text-emerald-900 dark:text-emerald-100">8</span>
-                  </div>
-                  <div className="w-full bg-emerald-200 dark:bg-emerald-900/50 rounded-full h-2">
-                    <div className="bg-gradient-to-r from-emerald-500 to-teal-600 h-2 rounded-full" style={{width: '67%'}}></div>
-                  </div>
-                  <p className="text-xs text-emerald-600 dark:text-emerald-400">67% resolution rate</p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-          </div>
-          
-          {/* AI Analysis Processing - Full Width */}
-          {processing && (
-            <motion.div variants={cardVariants}>
-              <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-border/50 shadow-lg">
-                <CardContent className="p-6">
-                  <div className="flex flex-col items-center space-y-6">
-                    <div className="relative w-20 h-20">
-                      <div className="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
-                      <div 
-                        className="absolute inset-0 border-4 border-blue-500 rounded-full transition-all duration-300 ease-out"
-                        style={{
-                          clipPath: `inset(0 ${100 - confidence}% 0 0)`,
-                          transform: 'rotate(-90deg)'
-                        }}
-                      ></div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-sm font-semibold text-blue-600">{confidence}%</span>
+            {/* AI Analysis Processing - Compact */}
+            {processing && (
+              <motion.div variants={cardVariants}>
+                <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-border/50 shadow-lg">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="relative w-12 h-12 flex-shrink-0">
+                        <div className="absolute inset-0 border-3 border-gray-200 dark:border-gray-700 rounded-full"></div>
+                        <div 
+                          className="absolute inset-0 border-3 border-blue-500 rounded-full transition-all duration-300 ease-out"
+                          style={{
+                            clipPath: `inset(0 ${100 - confidence}% 0 0)`,
+                            transform: 'rotate(-90deg)'
+                          }}
+                        ></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-xs font-semibold text-blue-600">{confidence}%</span>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="text-center space-y-2">
-                      <div className="flex items-center justify-center space-x-2">
-                        <Zap className="h-5 w-5 text-blue-500 animate-pulse" />
-                        <p className="font-medium text-foreground">AI Analysis in Progress</p>
-                      </div>
-                      <p className="text-sm text-muted-foreground">Advanced AI is detecting issue type and determining priority level</p>
                       
-                      {/* Progress bar */}
-                      <div className="w-full max-w-xs mx-auto">
-                        <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <Zap className="h-4 w-4 text-blue-500 animate-pulse" />
+                          <p className="font-medium text-foreground text-sm">AI Analysis in Progress</p>
+                        </div>
+                        <div className="bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
                           <div 
-                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300 ease-out"
+                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-1.5 rounded-full transition-all duration-300 ease-out"
                             style={{ width: `${confidence}%` }}
                           ></div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
 
-          {/* AI Analysis Result */}
-          {analysisResult && (
-            <motion.div variants={cardVariants}>
-              <Card className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-border/50 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                    <span>AI Analysis Complete</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
-                    <div className="flex items-start space-x-3">
-                      {(() => {
-                        const IconComponent = getIssueIcon(analysisResult.type)
-                        return <IconComponent className="h-6 w-6 text-green-600 dark:text-green-400 mt-0.5" />
-                      })()}
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <h4 className="font-medium text-green-800 dark:text-green-200">
+            {/* AI Analysis Result - Compact */}
+            {analysisResult && (
+              <motion.div variants={cardVariants}>
+                <Card className="bg-green-50/50 dark:bg-green-900/20 border-green-200/50 dark:border-green-800/50 shadow-lg">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="flex-shrink-0">
+                        {(() => {
+                          const IconComponent = getIssueIcon(analysisResult.type)
+                          return <IconComponent className="h-5 w-5 text-green-600 dark:text-green-400" />
+                        })()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <h4 className="font-medium text-green-800 dark:text-green-200 text-sm truncate">
                             {analysisResult.type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} Detected
                           </h4>
-                          <Badge className={`text-xs ${getPriorityColor(analysisResult.priority)}`}>
-                            {analysisResult.priority?.toUpperCase()} PRIORITY
+                          <Badge className={`text-xs flex-shrink-0 ${getPriorityColor(analysisResult.priority)}`}>
+                            {analysisResult.priority?.toUpperCase()}
                           </Badge>
                         </div>
-                        <p className="text-green-700 dark:text-green-300 text-sm mb-2">
-                          {analysisResult.description}
-                        </p>
-                        <p className="text-xs text-green-600 dark:text-green-400">
-                          Confidence: {(analysisResult.confidence * 100).toFixed(0)}% • 
-                          Department: {analysisResult.department}
+                        <p className="text-green-700 dark:text-green-300 text-xs">
+                          {(analysisResult.confidence * 100).toFixed(0)}% confidence
                         </p>
                       </div>
+                      <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-
-          {/* Description and Location - Full Width */}
-          {capturedImage && (
-            <motion.div variants={cardVariants} className="mt-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card className="bg-gradient-to-br from-white to-indigo-50/30 dark:from-slate-900 dark:to-indigo-950/30 border-indigo-200/50 dark:border-indigo-800/30 shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2 text-indigo-900 dark:text-indigo-100">
-                      <FileImage className="h-5 w-5" />
-                      <span>Issue Details</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Description *
-                    </label>
-                    <Textarea
-                      placeholder="Please describe the issue in detail... (e.g., size, location, safety impact)"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      className="bg-background/50 border-border/50 focus:border-primary/50 transition-colors"
-                      rows={4}
-                      minLength={20}
-                    />
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {description.length}/500 characters • Minimum 20 characters required
-                    </p>
-                  </div>
-                  
-                  {/* Priority Selector */}
-                  {!analysisResult && (
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        Priority Level
-                      </label>
-                      <div className="grid grid-cols-3 gap-2">
-                        {[
-                          { value: 'low', label: 'Low', color: 'green', description: 'Minor issue' },
-                          { value: 'medium', label: 'Medium', color: 'yellow', description: 'Needs attention' },
-                          { value: 'high', label: 'High', color: 'red', description: 'Urgent issue' }
-                        ].map((level) => (
-                          <button
-                            key={level.value}
-                            type="button"
-                            onClick={() => setPriority(level.value)}
-                            className={`p-3 rounded-lg border-2 transition-all duration-200 ${
-                              priority === level.value
-                                ? `border-${level.color}-500 bg-${level.color}-50 dark:bg-${level.color}-900/20`
-                                : 'border-border/50 hover:border-border/80'
-                            }`}
-                          >
-                            <div className={`text-sm font-medium ${
-                              priority === level.value ? `text-${level.color}-700 dark:text-${level.color}-300` : 'text-foreground'
-                            }`}>
-                              {level.label}
-                            </div>
-                            <div className="text-xs text-muted-foreground mt-1">
-                              {level.description}
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                   </CardContent>
                 </Card>
-                
-                {/* Location Card */}
-                <Card className="bg-gradient-to-br from-white to-cyan-50/30 dark:from-slate-900 dark:to-cyan-950/30 border-cyan-200/50 dark:border-cyan-800/30 shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2 text-cyan-900 dark:text-cyan-100">
-                      <MapPin className="h-5 w-5" />
-                      <span>Location</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
+              </motion.div>
+            )}
+
+            {/* Department Selection */}
+            {capturedImage && selectedDepartment && (
+              <motion.div variants={cardVariants}>
+                <Card className="bg-gradient-to-br from-white to-purple-50/30 dark:from-slate-900 dark:to-purple-950/30 border-purple-200/50 dark:border-purple-800/30 shadow-lg">
+                  <CardContent className="p-4 space-y-3">
                     <div className="flex items-center space-x-2">
-                      <div className="relative flex-1">
-                        <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          value={location}
-                          onChange={(e) => setLocation(e.target.value)}
-                          className="pl-10 bg-white/50 dark:bg-slate-900/50 border-cyan-200/50 dark:border-cyan-800/50 focus:border-cyan-500 transition-colors rounded-xl"
-                          placeholder="Enter location or detect automatically..."
-                        />
-                      </div>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={getCurrentLocation}
-                        disabled={locationLoading}
-                        className="px-3 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 border-cyan-300 dark:border-cyan-700 text-cyan-600 dark:text-cyan-400 rounded-xl"
-                      >
-                        {locationLoading ? (
-                          <motion.div
-                            className="w-4 h-4 border-2 border-cyan-500 border-t-transparent rounded-full"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          />
-                        ) : (
-                          <Locate className="h-4 w-4" />
-                        )}
-                      </Button>
+                      <Building2 className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                      <h3 className="font-semibold text-purple-900 dark:text-purple-100 text-sm">Department Assignment</h3>
                     </div>
-                    <div className="flex items-start space-x-2 text-xs text-cyan-600 dark:text-cyan-400 bg-cyan-50/50 dark:bg-cyan-900/20 p-3 rounded-xl">
-                      <Shield className="h-3 w-3 mt-0.5 flex-shrink-0" />
-                      <span>Your location data is kept private and only used for reporting purposes</span>
+                    <div className="bg-purple-50/50 dark:bg-purple-900/20 p-3 rounded-xl border border-purple-200/50 dark:border-purple-800/50">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-purple-800 dark:text-purple-200 text-sm">
+                            {selectedDepartment}
+                          </p>
+                          <p className="text-xs text-purple-600 dark:text-purple-400">
+                            AI recommended department
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <Badge className="bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">
+                            Auto-Selected
+                          </Badge>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
-              </div>
-            </motion.div>
-          )}
+              </motion.div>
+            )}
 
-          {/* Submit Section */}
-          {capturedImage && (
-            <motion.div variants={cardVariants} className="mt-8">
-              <Card className="bg-gradient-to-r from-blue-500/10 to-purple-600/10 border-blue-300/50 dark:border-purple-800/50 shadow-xl">
-                <CardContent className="p-6">
-                  <div className="text-center space-y-6">
-                    <div>
-                      <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">Ready to Submit?</h3>
-                      <p className="text-sm text-blue-600 dark:text-blue-400">Review your report and help make your community better</p>
-                    </div>
-                    
-                    {/* Form completion indicator */}
-                    <div className="flex items-center justify-center space-x-6">
-                      <div className={`flex flex-col items-center space-y-2 ${
+            {/* Description and Location - Compact Single Column */}
+            {capturedImage && (
+              <>
+                {/* Description Section */}
+                <motion.div variants={cardVariants}>
+                  <Card className="bg-gradient-to-br from-white to-indigo-50/30 dark:from-slate-900 dark:to-indigo-950/30 border-indigo-200/50 dark:border-indigo-800/30 shadow-lg">
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <FileImage className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                        <h3 className="font-semibold text-indigo-900 dark:text-indigo-100 text-sm">Describe the Issue</h3>
+                      </div>
+                      <Textarea
+                        placeholder="Brief description (e.g., size, location, safety impact)..."
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="bg-white/50 dark:bg-slate-900/50 border-indigo-200/50 dark:border-indigo-800/50 focus:border-indigo-500 transition-colors rounded-xl resize-none"
+                        rows={3}
+                        minLength={10}
+                      />
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-indigo-600 dark:text-indigo-400">
+                          {description.length}/500 chars
+                        </span>
+                        {description.length >= 10 && (
+                          <span className="text-green-600 dark:text-green-400 flex items-center">
+                            <CheckCircle className="h-3 w-3 mr-1" />
+                            Ready
+                          </span>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+
+                {/* Location Section */}
+                <motion.div variants={cardVariants}>
+                  <Card className="bg-gradient-to-br from-white to-cyan-50/30 dark:from-slate-900 dark:to-cyan-950/30 border-cyan-200/50 dark:border-cyan-800/30 shadow-lg">
+                    <CardContent className="p-4 space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <MapPin className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+                        <h3 className="font-semibold text-cyan-900 dark:text-cyan-100 text-sm">Location</h3>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="relative flex-1">
+                          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                          <Input
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                            className="pl-9 bg-white/50 dark:bg-slate-900/50 border-cyan-200/50 dark:border-cyan-800/50 focus:border-cyan-500 transition-colors rounded-xl h-9 text-sm"
+                            placeholder="Latitude, Longitude (auto-detected)"
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={getCurrentLocation}
+                          disabled={locationLoading}
+                          className="px-2 h-9 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 border-cyan-300 dark:border-cyan-700 text-cyan-600 dark:text-cyan-400 rounded-xl"
+                        >
+                          {locationLoading ? (
+                            <motion.div
+                              className="w-3 h-3 border-2 border-cyan-500 border-t-transparent rounded-full"
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            />
+                          ) : (
+                            <Locate className="h-3 w-3" />
+                          )}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </>
+            )}
+
+            {/* Submit Section - Compact */}
+            {capturedImage && (
+              <motion.div variants={cardVariants}>
+                <Card className="bg-gradient-to-r from-blue-500/10 to-purple-600/10 border-blue-300/50 dark:border-purple-800/50 shadow-xl">
+                  <CardContent className="p-4">
+                    {/* Progress indicators */}
+                    <div className="flex items-center justify-center space-x-6 mb-4">
+                      <div className={`flex items-center space-x-2 ${
                         capturedImage ? 'text-emerald-600' : 'text-gray-400'
                       }`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
                           capturedImage ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-gray-100 dark:bg-gray-800'
                         }`}>
-                          <CheckCircle className={`h-4 w-4 ${capturedImage ? 'fill-current' : ''}`} />
+                          <CheckCircle className={`h-3 w-3 ${capturedImage ? 'fill-current' : ''}`} />
                         </div>
                         <span className="text-xs font-medium">Photo</span>
                       </div>
-                      <div className={`flex flex-col items-center space-y-2 ${
-                        description.length >= 20 ? 'text-emerald-600' : 'text-gray-400'
+                      <div className={`flex items-center space-x-2 ${
+                        analysisResult ? 'text-emerald-600' : processing ? 'text-blue-500' : 'text-gray-400'
                       }`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          description.length >= 20 ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-gray-100 dark:bg-gray-800'
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                          analysisResult ? 'bg-emerald-100 dark:bg-emerald-900/30' : processing ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-gray-100 dark:bg-gray-800'
                         }`}>
-                          <CheckCircle className={`h-4 w-4 ${description.length >= 20 ? 'fill-current' : ''}`} />
+                          {processing ? (
+                            <motion.div
+                              className="w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full"
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            />
+                          ) : (
+                            <CheckCircle className={`h-3 w-3 ${analysisResult ? 'fill-current' : ''}`} />
+                          )}
                         </div>
-                        <span className="text-xs font-medium">Details</span>
+                        <span className="text-xs font-medium">AI Analysis</span>
                       </div>
-                      <div className={`flex flex-col items-center space-y-2 ${
-                        location.trim() ? 'text-emerald-600' : 'text-gray-400'
+                      <div className={`flex items-center space-x-2 ${
+                        description.length >= 10 ? 'text-emerald-600' : 'text-gray-400'
                       }`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          location.trim() ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-gray-100 dark:bg-gray-800'
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                          description.length >= 10 ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-gray-100 dark:bg-gray-800'
                         }`}>
-                          <CheckCircle className={`h-4 w-4 ${location.trim() ? 'fill-current' : ''}`} />
+                          <CheckCircle className={`h-3 w-3 ${description.length >= 10 ? 'fill-current' : ''}`} />
                         </div>
-                        <span className="text-xs font-medium">Location</span>
+                        <span className="text-xs font-medium">Description</span>
+                      </div>
+                      <div className={`flex items-center space-x-2 ${
+                        selectedDepartment ? 'text-emerald-600' : 'text-gray-400'
+                      }`}>
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                          selectedDepartment ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-gray-100 dark:bg-gray-800'
+                        }`}>
+                          <CheckCircle className={`h-3 w-3 ${selectedDepartment ? 'fill-current' : ''}`} />
+                        </div>
+                        <span className="text-xs font-medium">Department</span>
                       </div>
                     </div>
                     
                     <Button
                       onClick={handleSubmit}
-                      disabled={!description.trim() || description.length < 20 || !location.trim()}
-                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl h-14 text-lg font-semibold rounded-2xl transition-all duration-200"
+                      disabled={!description.trim() || description.length < 10 || !selectedDepartment || !analysisResult}
+                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl h-12 font-semibold rounded-2xl transition-all duration-200 mb-2"
                     >
-                      <Send className="h-5 w-5 mr-3" />
-                      {!description.trim() || description.length < 20 || !location.trim() 
-                        ? 'Complete All Fields to Submit' 
-                        : 'Submit Report to Authorities'
+                      <Send className="h-4 w-4 mr-2" />
+                      {!analysisResult
+                        ? 'Waiting for AI Analysis...' 
+                        : !description.trim() || description.length < 10
+                        ? 'Add Description to Submit'
+                        : !selectedDepartment
+                        ? 'Waiting for Department Assignment...'
+                        : `Submit to ${selectedDepartment}`
                       }
                     </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+                    
+                    <p className="text-xs text-center text-blue-600/70 dark:text-blue-400/70">
+                      Your report will be sent to the relevant authorities
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+          </div>
         </motion.div>
       </div>
     </div>

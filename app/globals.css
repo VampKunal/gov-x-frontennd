@@ -180,6 +180,26 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Mobile-specific utilities */
+@layer utilities {
+  .mobile-bottom-padding {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+  
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .min-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .touch-action-pan-y {
+    touch-action: pan-y;
+  }
+}
+
 /* Custom animations */
 @keyframes float {
   0%,

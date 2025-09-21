@@ -207,10 +207,10 @@ export default function AuthChoicePage() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Link href="/department/auth">
-                  <Card className="h-full bg-gradient-to-br from-purple-800/10 to-purple-900/10 border-purple-700/20 hover:border-purple-600/40 backdrop-blur-xl shadow-2xl transition-all duration-300 overflow-hidden relative">
+                  <Card className="h-full bg-gradient-to-br from-orange-600/10 to-orange-700/10 border-orange-500/20 hover:border-orange-400/40 backdrop-blur-xl shadow-2xl transition-all duration-300 overflow-hidden relative">
                     {/* Animated background gradient */}
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-purple-800/5 to-purple-900/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="absolute inset-0 bg-gradient-to-br from-orange-600/5 to-orange-700/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       animate={{
                         y: [5, -5, 5],
                         transition: {
@@ -225,7 +225,7 @@ export default function AuthChoicePage() {
                       <div className="text-center space-y-6">
                         {/* Icon */}
                         <motion.div
-                          className="mx-auto w-20 h-20 bg-gradient-to-r from-purple-800 to-purple-900 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
+                          className="mx-auto w-20 h-20 bg-gradient-to-r from-orange-600 to-orange-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300"
                           whileHover={{ rotate: -5 }}
                           transition={{ type: "spring", stiffness: 400 }}
                         >
@@ -233,13 +233,13 @@ export default function AuthChoicePage() {
                         </motion.div>
 
                         {/* Badge */}
-                        <Badge variant="secondary" className="bg-purple-800/20 text-purple-300 border-purple-800/30">
+                        <Badge variant="secondary" className="bg-orange-600/20 text-orange-300 border-orange-600/30">
                           <Shield className="h-3 w-3 mr-1" />
                           For Departments
                         </Badge>
 
                         {/* Title */}
-                        <h2 className="text-2xl font-bold text-foreground group-hover:text-purple-300 transition-colors duration-300">
+                        <h2 className="text-2xl font-bold text-foreground group-hover:text-orange-300 transition-colors duration-300">
                           Department Login
                         </h2>
 
@@ -251,22 +251,22 @@ export default function AuthChoicePage() {
                         {/* Features */}
                         <div className="space-y-3 text-left">
                           <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                            <CheckCircle className="h-4 w-4 text-orange-400 flex-shrink-0" />
                             <span>Review and assign incoming issue reports</span>
                           </div>
                           <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                            <CheckCircle className="h-4 w-4 text-orange-400 flex-shrink-0" />
                             <span>Track team progress and performance metrics</span>
                           </div>
                           <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-                            <CheckCircle className="h-4 w-4 text-purple-400 flex-shrink-0" />
+                            <CheckCircle className="h-4 w-4 text-orange-400 flex-shrink-0" />
                             <span>Upload resolution proof and manage workflows</span>
                           </div>
                         </div>
 
                         {/* Button */}
                         <div className="pt-4">
-                          <Button className="w-full bg-gradient-to-r from-purple-800 to-purple-900 hover:from-purple-900 hover:to-purple-950 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl">
+                          <Button className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-300 group-hover:shadow-xl">
                             <span>Continue as Department</span>
                             <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
                           </Button>

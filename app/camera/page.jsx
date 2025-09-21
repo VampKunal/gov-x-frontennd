@@ -276,7 +276,7 @@ export default function CameraPage() {
       {/* Bottom Controls */}
       {!error && (
         <div className="absolute bottom-0 left-0 right-0 z-20">
-          <div className="p-3 xxs:p-4 xs:p-6 bg-gradient-to-t from-black/80 to-transparent">
+          <div className="p-3 xxs:p-4 xs:p-6 pb-20 lg:pb-6 bg-gradient-to-t from-black/80 to-transparent">
             <div className="flex items-center justify-between">
               {/* Gallery Button */}
               <motion.button
@@ -350,7 +350,7 @@ export default function CameraPage() {
               />
               
               {/* Preview Controls */}
-              <div className="absolute bottom-0 left-0 right-0 p-3 xxs:p-4 xs:p-6 bg-gradient-to-t from-black/80 to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 p-3 xxs:p-4 xs:p-6 pb-20 lg:pb-6 bg-gradient-to-t from-black/80 to-transparent">
                 <div className="flex items-center justify-center space-x-3 xxs:space-x-4">
                   <motion.button
                     onClick={retakePhoto}

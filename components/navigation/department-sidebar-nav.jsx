@@ -103,16 +103,18 @@ export function DepartmentSidebarNav() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center space-x-3 px-2 py-2 rounded-lg transition-all duration-200 group ${
+                  className={`flex items-center space-x-3 px-2 py-2 rounded-lg transition-all duration-300 group relative overflow-hidden ${
                     isActive 
                       ? 'bg-primary/10 text-primary border border-primary/20' 
-                      : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  <item.icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
+                  {/* Background hover effect with proper timing */}
+                  <div className="absolute inset-0 bg-muted/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                  <item.icon className={`w-5 h-5 relative z-10 ${isActive ? 'text-primary' : ''}`} />
                   {isExpanded && (
                     <motion.span 
-                      className="font-medium"
+                      className="font-medium relative z-10"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 }}
@@ -123,7 +125,7 @@ export function DepartmentSidebarNav() {
                   
                   {isActive && (
                     <motion.div
-                      className="ml-auto w-1 h-6 bg-primary rounded-full"
+                      className="ml-auto w-1 h-6 bg-primary rounded-full relative z-10"
                       layoutId="departmentActiveIndicator"
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />

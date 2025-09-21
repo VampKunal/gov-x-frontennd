@@ -62,24 +62,40 @@ export function MobileNav() {
             >
               <Link
                 href={item.href}
-                className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-xl transition-all duration-200 min-w-0 ${
+                className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-xl transition-all duration-300 min-w-0 relative group ${
                   isActive 
                     ? 'text-primary' 
-                    : 'text-muted-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                <div className="relative">
-                  <item.icon className={`w-6 h-6 ${isActive ? 'text-primary' : ''}`} />
-                  {isActive && (
-                    <motion.div
-                      className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"
-                      layoutId="mobileActiveIndicator"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
+                {/* Background hover effect */}
+                <div className={`absolute inset-0 rounded-xl transition-all duration-300 ${
+                  isActive 
+                    ? 'bg-primary/10 scale-100' 
+                    : 'bg-muted/0 group-hover:bg-muted/50 scale-95 group-hover:scale-100'
+                }`} />
+                
+                <div className="relative z-10">
+                  <motion.div
+                    className="relative"
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  >
+                    <item.icon className={`w-6 h-6 transition-colors duration-300 ${
+                      isActive ? 'text-primary' : 'group-hover:text-foreground'
+                    }`} />
+                    {isActive && (
+                      <motion.div
+                        className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"
+                        layoutId="mobileActiveIndicator"
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                  </motion.div>
                 </div>
-                <span className={`text-xs font-medium truncate ${
-                  isActive ? 'text-primary' : 'text-muted-foreground'
+                
+                <span className={`text-xs font-medium truncate relative z-10 transition-colors duration-300 ${
+                  isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
                 }`}>
                   {item.label}
                 </span>
@@ -95,22 +111,27 @@ export function MobileNav() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <button
+            <motion.button
               onClick={() => setShowProfileModal(true)}
-              className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-xl transition-all duration-200 min-w-0 text-muted-foreground hover:text-foreground`}
+              className={`flex flex-col items-center space-y-1 px-3 py-2 rounded-xl transition-all duration-300 min-w-0 relative group text-muted-foreground hover:text-foreground`}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <div className="relative">
-                <Avatar className="w-6 h-6">
+              {/* Background hover effect */}
+              <div className="absolute inset-0 rounded-xl bg-muted/0 group-hover:bg-muted/50 scale-95 group-hover:scale-100 transition-all duration-300" />
+              
+              <div className="relative z-10">
+                <Avatar className="w-6 h-6 ring-2 ring-transparent group-hover:ring-primary/20 transition-all duration-300">
                   <AvatarImage src={user.photoURL || undefined} />
-                  <AvatarFallback className="text-xs font-medium">
+                  <AvatarFallback className="text-xs font-medium bg-primary/10 text-primary group-hover:bg-primary/20">
                     {user.displayName?.[0] || user.email?.[0] || 'U'}
                   </AvatarFallback>
                 </Avatar>
               </div>
-              <span className="text-xs font-medium truncate text-muted-foreground">
+              <span className="text-xs font-medium truncate relative z-10 text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                 Profile
               </span>
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </div>
